@@ -186,7 +186,7 @@
 .gnav__link[aria-current="page"]::after { transform: scaleX(1); }
 
 .gnav__ja { transition: color .25s ease; }
-.gnav__link:hover .gnav__ja { color: var(--c-leaf); }
+.gnav__link:hover .gnav__ja { color: var(--c-leaf-text); }
 
 /* --------------------------------------------------------------------------
    6. ボタン：浮き上がる／矢印が進む
