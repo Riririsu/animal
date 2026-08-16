@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ja" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>メニュー・料金｜あにまるカフェ Oasis</title>
+<meta name="description" content="入場料1,000円（1時間・2ドリンク付）。ドリンク・ご飯物・パスタ・ケーキのメニューと、ゾウガメの餌やり体験をご案内します。">
+<link rel="icon" href="images/logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<!-- ========== 共通の SVG シンボル（葉・足あと・アイコン） ========== -->
+<svg class="svg-defs" aria-hidden="true" focusable="false">
+  <symbol id="v2-sprig" viewBox="0 0 200 200">
+    <path d="M24 182C54 146 86 110 114 78 132 58 150 38 172 20" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round"/>
+    <g fill="currentColor">
+      <path d="M60 140Q60.6 109.4 30 110Q29.4 140.6 60 140Z"/>
+      <path d="M86 110Q116.6 109.4 116 140Q85.4 140.6 86 110Z"/>
+      <path d="M114 78Q114.6 47.4 84 48Q83.4 78.6 114 78Z"/>
+      <path d="M142 48Q172.6 47.4 172 78Q141.4 78.6 142 48Z"/>
+      <path d="M158 32Q159.1 4.9 132 6Q130.9 33.1 158 32Z"/>
+    </g>
+  </symbol>
+  <symbol id="v2-paw" viewBox="0 0 100 100">
+    <g fill="currentColor">
+      <ellipse cx="24" cy="38" rx="9.5" ry="13" transform="rotate(-20 24 38)"/>
+      <ellipse cx="42" cy="25" rx="9.5" ry="13.5" transform="rotate(-7 42 25)"/>
+      <ellipse cx="61" cy="25" rx="9.5" ry="13.5" transform="rotate(7 61 25)"/>
+      <ellipse cx="79" cy="38" rx="9.5" ry="13" transform="rotate(20 79 38)"/>
+      <path d="M50 46c16 0 29 12 29 26 0 12-10 19-21 19-4 0-6-1-8-1s-4 1-8 1c-11 0-21-7-21-19 0-14 13-26 29-26z"/>
+    </g>
+  </symbol>
+  <symbol id="ic-phone" viewBox="0 0 24 24">
+    <path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a1 1 0 01-1 1A16 16 0 014 5a1 1 0 011-1z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="ic-instagram" viewBox="0 0 24 24">
+    <rect x="3.5" y="3.5" width="17" height="17" rx="5" fill="none" stroke="currentColor" stroke-width="1.7"/>
+    <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.7"/>
+    <circle cx="17.2" cy="6.8" r="1.1" fill="currentColor"/>
+  </symbol>
+  <symbol id="ic-arrow" viewBox="0 0 24 24">
+    <path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="ic-car" viewBox="0 0 24 24">
+    <path d="M4 15l1.6-5A2 2 0 017.5 8.6h9A2 2 0 0118.4 10L20 15v3.4h-2.2M4 15v3.4h2.2M4 15h16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="7.2" cy="18.4" r="1.6" fill="none" stroke="currentColor" stroke-width="1.6"/>
+    <circle cx="16.8" cy="18.4" r="1.6" fill="none" stroke="currentColor" stroke-width="1.6"/>
+  </symbol>
+</svg>
+<!-- ========== ヘッダー ========== -->
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="logo" href="index.html"><img src="images/logo.jpg" alt="あにまるカフェ Oasis"></a>
+
+    <nav class="gnav" aria-label="メインメニュー">
+      <a class="gnav__link" href="index.html">HOME<span class="gnav__ja">ホーム</span></a>
+      <a class="gnav__link" href="about.html">OASIS<span class="gnav__ja">店舗紹介</span></a>
+      <a class="gnav__link" href="animals.html">ANIMALS<span class="gnav__ja">どうぶつ紹介</span></a>
+      <a class="gnav__link" href="menu.html" aria-current="page">PRICE<span class="gnav__ja">メニュー・料金</span></a>
+      <a class="gnav__link" href="access.html">ACCESS<span class="gnav__ja">アクセス</span></a>
+      <a class="gnav__link" href="news.html">NEWS<span class="gnav__ja">お知らせ</span></a>
+      <a class="btn btn--primary btn--sm" href="tel:0000000000">
+        <svg width="17" height="17" aria-hidden="true"><use href="#ic-phone"/></svg>
+        電話でお問い合わせ
+      </a>
+    </nav>
+
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="drawer">
+      <span class="sr-only">メニューを開く</span>
+      <span class="nav-toggle__bar"></span>
+      <span class="nav-toggle__bar"></span>
+      <span class="nav-toggle__bar"></span>
+    </button>
+  </div>
+</header>
+
+<!-- ========== スマホ用メニュー ========== -->
+<div class="drawer" id="drawer">
+  <div class="drawer__scrim"></div>
+  <div class="drawer__panel" role="dialog" aria-modal="true" aria-label="メニュー">
+    <button class="drawer__close" type="button"><span class="sr-only">メニューを閉じる</span>×</button>
+    <nav class="drawer__nav" aria-label="メインメニュー（スマートフォン）">
+      <a class="drawer__link" href="index.html">ホーム<span>HOME</span></a>
+      <a class="drawer__link" href="about.html">店舗紹介・コンセプト<span>OASIS</span></a>
+      <a class="drawer__link" href="animals.html">どうぶつ紹介<span>ANIMALS</span></a>
+      <a class="drawer__link" href="menu.html" aria-current="page">メニュー・料金<span>PRICE</span></a>
+      <a class="drawer__link" href="rules.html">ご利用ルール<span>RULES</span></a>
+      <a class="drawer__link" href="sales.html">生体販売・お迎え<span>SALES</span></a>
+      <a class="drawer__link" href="access.html">アクセス・駐車場<span>ACCESS</span></a>
+      <a class="drawer__link" href="news.html">お知らせ・ブログ<span>NEWS</span></a>
+    </nav>
+    <div class="drawer__actions">
+      <a class="btn btn--primary" href="tel:0000000000">
+        <svg width="17" height="17" aria-hidden="true"><use href="#ic-phone"/></svg>電話でお問い合わせ
+      </a>
+      <a class="btn btn--outline" href="#instagram">
+        <svg width="17" height="17" aria-hidden="true"><use href="#ic-instagram"/></svg>Instagram DM
+      </a>
+    </div>
+  </div>
+</div>
+
+<main id="main">
+
+  <!-- ========== ページ見出し ========== -->
+  <section class="page-hero">
+    <svg class="deco deco--blob" style="top:-120px;right:-60px;width:420px;height:420px" viewBox="0 0 400 400" aria-hidden="true">
+      <ellipse cx="200" cy="200" rx="180" ry="150" fill="#DFEDE9" transform="rotate(14 200 200)"/>
+    </svg>
+    <svg class="deco deco--sprig" style="bottom:-70px;left:-50px;width:250px;height:250px;--deco-rot:-18deg" aria-hidden="true"><use href="#v2-sprig"/></svg>
+
+    <div class="wrap" style="position:relative;z-index:2">
+      <p class="breadcrumb"><a href="index.html">ホーム</a> ／ メニュー・料金</p>
+      <p class="eyebrow" style="margin-top:22px">PRICE &amp; MENU</p>
+      <h1 class="page-hero__title">メニュー・料金</h1>
+      <p class="lead lead--wide">入場料には2ドリンクが付いています。お食事のみのご利用も歓迎です。価格は税込、メニューは仕入れ状況により変わることがあります。</p>
+    </div>
+
+    <svg class="wave wave--overlap" viewBox="0 0 1280 66" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 40C140 4 330 66 520 44 700 24 880 8 1030 30 1150 48 1215 60 1280 36V68H0Z" fill="#FBF7EE"/>
+    </svg>
+  </section>
+
+  <section class="section" style="padding-top:48px">
+    <div class="wrap">
+      <div class="grid grid--2" data-reveal-stagger="up">
+        <div class="panel panel--green" style="padding:36px 38px">
+          <p class="eyebrow" style="font-size:12px;letter-spacing:.26em;color:var(--c-on-green-sub)">ADMISSION</p>
+          <p style="margin-top:14px;font-family:var(--f-serif);font-size:24px;font-weight:600">入場料（1時間・2ドリンク付）</p>
+          <p class="price-hero">1,000<small>円</small></p>
+          <p style="margin-top:14px;font-size:14px;line-height:2;color:var(--c-on-green)">お食事のみ・生体のお買い上げのみの方は入場料は頂きません。</p>
+        </div>
+
+        <div class="panel panel--gold" style="padding:36px 38px">
+          <p class="eyebrow" style="font-size:12px;letter-spacing:.26em;color:var(--c-gold)">EXPERIENCE</p>
+          <h2 class="panel__title" style="margin:14px 0 8px;font-size:22px">体験メニュー</h2>
+          <div class="row" style="border-bottom:0;padding:12px 0"><span>ゾウガメの餌やり体験</span><span class="row__value">1回 100円</span></div>
+          <p style="margin-top:8px;font-size:14px;line-height:2">動物の体調により、お休みする場合があります。当日スタッフにお尋ねください。</p>
+        </div>
+      </div>
+
+      <div class="grid grid--2" style="margin-top:44px;gap:26px 44px">
+        <div data-reveal="up">
+          <h2 class="section-title section-title--sm" style="margin:0 0 16px">ドリンク</h2>
+          <div class="rows">
+            <div class="row"><span>コーヒー（ホット／アイス）</span><span class="row__value">400円</span></div>
+            <div class="row"><span>紅茶・ハーブティー</span><span class="row__value">450円</span></div>
+            <div class="row"><span>ジュース各種</span><span class="row__value">400円</span></div>
+            <div class="row"><span>クリームソーダ</span><span class="row__value">550円</span></div>
+          </div>
+        </div>
+
+        <div data-reveal="up" style="--reveal-delay:.1s">
+          <h2 class="section-title section-title--sm" style="margin:0 0 16px">ご飯物・パスタ</h2>
+          <div class="rows">
+            <div class="row"><span>カレーライス</span><span class="row__value">700円</span></div>
+            <div class="row"><span>ナポリタン</span><span class="row__value">750円</span></div>
+            <div class="row"><span>日替わりプレート</span><span class="row__value">850円</span></div>
+          </div>
+        </div>
+
+        <div data-reveal="up">
+          <h2 class="section-title section-title--sm" style="margin:0 0 16px">ケーキ・スイーツ</h2>
+          <div class="rows">
+            <div class="row"><span>チーズケーキ</span><span class="row__value">450円</span></div>
+            <div class="row"><span>ガトーショコラ</span><span class="row__value">480円</span></div>
+            <div class="row"><span>季節のケーキ</span><span class="row__value">500円</span></div>
+          </div>
+        </div>
+
+        <div class="photo photo--sand photo--organic-3" style="height:340px" data-reveal="pop">ドリンク・ケーキ写真</div>
+      </div>
+
+      <p class="note" style="margin-top:44px">価格は税込です。店内メニュー表と同じ内容を掲載しています。</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ========== フッター ========== -->
+<footer class="site-footer">
+  <svg class="wave" viewBox="0 0 1280 66" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 0H1280V24C1130 62 950 12 760 38 570 64 380 68 220 46 130 34 58 26 0 32Z" fill="#FBF7EE"/>
+  </svg>
+  <svg class="deco deco--sprig" style="bottom:-56px;right:-56px;width:320px;height:320px;--deco-rot:-20deg" aria-hidden="true"><use href="#v2-sprig"/></svg>
+
+  <div class="site-footer__inner">
+    <div>
+      <img class="site-footer__logo" src="images/logo.jpg" alt="あにまるカフェ Oasis">
+      <p class="site-footer__addr">鹿児島県霧島市国分—————<br>TEL 000-000-0000<br>11:00 – 19:00／火曜定休</p>
+    </div>
+    <nav class="footer-links" aria-label="フッターメニュー1">
+      <a href="about.html">店舗紹介・コンセプト</a>
+      <a href="animals.html">どうぶつ紹介</a>
+      <a href="menu.html">メニュー・料金</a>
+      <a href="rules.html">ご利用ルール</a>
+    </nav>
+    <nav class="footer-links" aria-label="フッターメニュー2">
+      <a href="sales.html">生体販売・お迎えのご相談</a>
+      <a href="access.html">アクセス・駐車場</a>
+      <a href="news.html">お知らせ・ブログ</a>
+      <a href="about.html#staff">スタッフ紹介</a>
+    </nav>
+  </div>
+
+  <p class="site-footer__legal">第一種動物取扱業　鹿児島県R8姶保第35号の5（販売）／鹿児島県R8姶保第35号の6（展示）　令和8年7月24日〜令和13年7月23日迄</p>
+</footer>
+
+<!-- スマホ下部の固定 CTA -->
+<div class="mobile-cta">
+  <a class="btn btn--primary" href="tel:0000000000">電話</a>
+  <a class="btn btn--gold" href="#instagram">Instagram</a>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
