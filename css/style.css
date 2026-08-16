@@ -431,10 +431,8 @@ button {
   font-weight: 600;
   color: var(--c-green-deep);
 }
-.hero__title em {
-  font-style: normal;
-  color: var(--c-green);
-}
+/* 「Oasis」の色替え。強調の意味は持たないので em ではなく span を使う */
+.hero__accent { color: var(--c-green); }
 .hero__lead {
   margin-top: 26px;
   max-width: 470px;
@@ -776,7 +774,7 @@ button {
   cursor: pointer;
 }
 .chip:hover { border-color: var(--c-green); color: var(--c-green); }
-.chip[aria-selected="true"] {
+.chip[aria-pressed="true"] {
   background: var(--c-green);
   border-color: var(--c-green);
   color: #fff;

@@ -5,7 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>お知らせ・ブログ｜あにまるカフェ Oasis</title>
 <meta name="description" content="新しい仲間の入荷、臨時休業、店内の様子などをお届けします。">
+<meta name="theme-color" content="#2E5E3A">
 <link rel="icon" href="images/logo.jpg">
+
+<!-- SNS でシェアされたときの表示（LINE・Instagram・X など）
+     ※ og:image と og:url は、公開ドメインが決まったら
+        https://example.com/images/logo.jpg のような絶対URLに書き換えてください。
+        相対パスのままだと、多くのSNSでサムネイルが表示されません。 -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="あにまるカフェ Oasis">
+<meta property="og:title" content="お知らせ・ブログ｜あにまるカフェ Oasis">
+<meta property="og:description" content="新しい仲間の入荷、臨時休業、店内の様子などをお届けします。">
+<meta property="og:image" content="images/logo.jpg">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
@@ -57,7 +71,7 @@
 <!-- ========== ヘッダー ========== -->
 <header class="site-header">
   <div class="site-header__inner">
-    <a class="logo" href="index.html"><img src="images/logo.jpg" alt="あにまるカフェ Oasis"></a>
+    <a class="logo" href="index.html"><img src="images/logo.jpg" alt="あにまるカフェ Oasis" width="1024" height="1024"></a>
 
     <nav class="gnav" aria-label="メインメニュー">
       <a class="gnav__link" href="index.html">HOME<span class="gnav__ja">ホーム</span></a>
@@ -130,15 +144,15 @@
 
   <section class="section" style="padding-top:44px">
     <div class="wrap">
-      <div class="chips" role="tablist" aria-label="お知らせの絞り込み"
+      <div class="chips" role="group" aria-label="お知らせの絞り込み"
            data-filter-group data-filter-target="#news-list" data-reveal="up">
-        <button class="chip" type="button" role="tab" data-filter="all" aria-selected="true">すべて</button>
-        <button class="chip" type="button" role="tab" data-filter="arrival" aria-selected="false">入荷</button>
-        <button class="chip" type="button" role="tab" data-filter="closed" aria-selected="false">休業</button>
-        <button class="chip" type="button" role="tab" data-filter="shop" aria-selected="false">店内の様子</button>
+        <button class="chip" type="button" data-filter="all" aria-pressed="true">すべて</button>
+        <button class="chip" type="button" data-filter="arrival" aria-pressed="false">入荷</button>
+        <button class="chip" type="button" data-filter="closed" aria-pressed="false">休業</button>
+        <button class="chip" type="button" data-filter="shop" aria-pressed="false">店内の様子</button>
       </div>
 
-      <div class="grid grid--3" id="news-list" style="margin-top:34px" data-reveal-stagger="up">
+      <div class="grid grid--3" id="news-list" aria-live="polite" style="margin-top:34px" data-reveal-stagger="up">
         <a class="card" href="news.html" data-cat="arrival">
           <span class="card__thumb" style="height:200px"></span>
           <span class="card__body" style="padding:22px 26px 26px">
@@ -203,7 +217,7 @@
 
   <div class="site-footer__inner">
     <div>
-      <img class="site-footer__logo" src="images/logo.jpg" alt="あにまるカフェ Oasis">
+      <img class="site-footer__logo" src="images/logo.jpg" alt="あにまるカフェ Oasis" width="1024" height="1024" loading="lazy">
       <p class="site-footer__addr">鹿児島県霧島市国分—————<br>TEL 000-000-0000<br>11:00 – 19:00／火曜定休</p>
     </div>
     <nav class="footer-links" aria-label="フッターメニュー1">

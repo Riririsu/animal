@@ -156,7 +156,7 @@
         var value = chip.getAttribute('data-filter');
 
         chips.forEach(function (c) {
-          c.setAttribute('aria-selected', String(c === chip));
+          c.setAttribute('aria-pressed', String(c === chip));
         });
 
         Array.prototype.forEach.call(items, function (item, i) {
