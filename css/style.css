@@ -630,6 +630,27 @@ img:where(.photo, .card__thumb, .step-card__photo) { width: 100%; }
   background: #fff;
   border: 1px solid var(--c-line);
 }
+/* トップページ用の小さい版。囲みが縦に伸びすぎないよう抑えている
+   （原寸で見たいときはアクセスページへ誘導する） */
+.photo-map--sm { max-width: 280px; }
+
+/* 小さい版はアクセスページへのリンクにしている */
+.photo-map-link {
+  display: block;
+  transition: transform .3s cubic-bezier(.22, .68, .3, 1), box-shadow .3s ease;
+}
+.photo-map-link:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--sh-card);
+}
+.photo-map-link__note {
+  display: block;
+  margin-top: 8px;
+  font-size: var(--fs-note);
+  font-weight: 700;
+  color: var(--c-green);
+  text-align: center;
+}
 
 .photo--sand  { background: linear-gradient(150deg, #e7dcc4, #cbb590); color: #6b5c40; }
 .photo--water { background: linear-gradient(150deg, #d5e3dc, #aec6bd); color: #4d6360; }
