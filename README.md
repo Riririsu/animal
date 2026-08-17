@@ -58,7 +58,11 @@ sed -i 's|https://riririsu.github.io/animal/|https://example.com/|g' *.html robo
 │   └── main.js     スクロール連動・スマホメニュー・絞り込み
 │
 ├── images/
-│   └── logo.jpg    ロゴ
+│   ├── logo.jpg            ロゴ（原寸・og:image の元）
+│   ├── logo-160.jpg        ロゴ（表示用・軽量）
+│   ├── logo-og.jpg         SNSシェア用
+│   ├── apple-touch-icon.png
+│   └── parking-map.svg     第二駐車場の案内図
 │
 ├── .github/workflows/
 │   └── pages.yml           GitHub Pages への自動公開
@@ -221,15 +225,28 @@ sed -i 's|href="#instagram"|href="https://www.instagram.com/XXXX/" target="_blan
 `object-fit: cover` などの追加指定は不要です（CSS 側で対応済み）。
 枠はそのままにして中に `<img>` を入れる書き方にも対応しています。
 
-### 5. Googleマップ
+### 5. 第二駐車場の案内図（要確認）
+
+`images/parking-map.svg` は、**いただいた案内図の画像をもとに作り直したもの**です。
+画像ファイルそのものを受け取れなかったため、見た目を参考に描き起こしています。
+
+- **道路の形・位置関係は目視で写したもの**です。実物とずれていないかご確認ください
+- 書体が元の画像と異なります（丸ゴシック → Zen Kaku Gothic New）
+- SVG のため、拡大しても文字がぼやけません。ファイルサイズは 5KB です
+- 文字や色は `images/parking-map.svg` をテキストエディタで直接編集できます
+
+元の画像をそのまま使いたい場合は、`images/` に置いて
+`index.html` と `access.html` の `parking-map.svg` を差し替えてください。
+
+### 6. Googleマップ
 `index.html` と `access.html` の「Googleマップ」と書かれた `<div>` を、
 Googleマップの埋め込みコード（`<iframe>`）に置き換えてください。
 
-### 6. 掲載内容
+### 7. 掲載内容
 どうぶつ・メニュー・お知らせの各項目はデザイン通りのサンプルです。実際の内容に差し替えてください。
 `news.html` のページ送り（1・2・3・次へ）も、記事が増えたら実際のリンク先に変えてください。
 
-### 7. 構造化データ（`index.html`）
+### 8. 構造化データ（`index.html`）
 検索結果に営業時間や地図を出すための `application/ld+json` を入れています。
 **電話番号・住所・Instagram の URL が仮のままなので、必ず実際の値に書き換えてください。**
 仮の値のまま公開すると、検索エンジンに誤った店舗情報が伝わります。

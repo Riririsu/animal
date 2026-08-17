@@ -619,6 +619,18 @@ img:where(.photo, .card__thumb, .step-card__photo) { width: 100%; }
 }
 .photo:has(> img) { padding: 0; }
 
+/* 第二駐車場の案内図。縦長なので切り抜かず、そのままの比率で見せる */
+.photo-map {
+  display: block;
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  margin-inline: auto;
+  border-radius: 20px;
+  background: #fff;
+  border: 1px solid var(--c-line);
+}
+
 .photo--sand  { background: linear-gradient(150deg, #e7dcc4, #cbb590); color: #6b5c40; }
 .photo--water { background: linear-gradient(150deg, #d5e3dc, #aec6bd); color: #4d6360; }
 .photo--mist  { background: linear-gradient(150deg, #d9e5da, #aac3b8); color: #3f5350; }
