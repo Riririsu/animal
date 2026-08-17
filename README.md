@@ -31,6 +31,7 @@ Claude Design の「Oasis デザイン v2 全ページ」を、HTML / CSS / Java
 │   └── logo.jpg    ロゴ
 │
 └── docs/
+    ├── photo-guide.md      写真の差し替え対応表（どの行を何に置き換えるか）
     └── wordpress-plan.md   WordPress でCMS化する場合の設計メモ
 ```
 
@@ -138,19 +139,23 @@ sed -i 's|href="#instagram"|href="https://www.instagram.com/XXXX/" target="_blan
 ### 3. 住所
 `鹿児島県霧島市国分—————` が仮のままです。実際の住所に置き換えてください。
 
-### 4. 写真
+### 4. 写真（全50枠）
 デザイン段階では写真がすべて仮だったため、**グラデーションの四角＋説明文**で置いています。
+
+**どのファイルの何行目を何に置き換えるかは、`docs/photo-guide.md` に一覧があります。**
+推奨サイズと切り抜きの形（正円／有機的／角丸）も載せています。
 
 ```html
 <!-- 今の状態 -->
 <div class="photo photo--organic photo-cluster__a">実物写真：店内の様子</div>
 
-<!-- 写真に差し替えるとき -->
+<!-- 写真に差し替えるとき（class はそのまま残す） -->
 <img class="photo photo--organic photo-cluster__a" src="images/shop.jpg" alt="店内の様子">
 ```
 
-`.photo--organic` などの丸みのある形はそのまま使えます。`<img>` にする場合は
-`object-fit: cover;` を足すときれいに収まります。
+**class を残したまま `<img>` に置き換えるだけで、枠の形どおりに切り抜かれます。**
+`object-fit: cover` などの追加指定は不要です（CSS 側で対応済み）。
+枠はそのままにして中に `<img>` を入れる書き方にも対応しています。
 
 ### 5. Googleマップ
 `index.html` と `access.html` の「Googleマップ」と書かれた `<div>` を、

@@ -546,6 +546,43 @@ button {
   background: linear-gradient(150deg, #d7e3d0, #aec5a6);
   border-radius: var(--r-card);
 }
+/* ---- 実際の写真を入れたとき ----
+   プレースホルダを <img> に置き換えるだけで、枠の形に合わせて切り抜かれます。
+     置き換え前: <div class="photo photo--organic photo-cluster__a">実物写真：店内の様子</div>
+     置き換え後: <img class="photo photo--organic photo-cluster__a" src="images/shop.jpg" alt="店内の様子">
+   枠はそのままにして中に <img> を入れる書き方にも対応しています。 */
+img.photo,
+img.card__thumb,
+img.circle-link__img,
+img.step-card__photo,
+img.news-mini__img {
+  padding: 0;
+  object-fit: cover;
+}
+/* 幅は既存クラスの指定（photo-cluster__a など）を尊重したいので、
+   :where() で詳細度を持たせずに「指定が無いときだけ」100% にする */
+img:where(.photo, .card__thumb, .step-card__photo) { width: 100%; }
+
+.photo,
+.card__thumb,
+.circle-link__img,
+.step-card__photo,
+.news-mini__img,
+.thumb-strip span { overflow: hidden; }
+
+.photo > img,
+.card__thumb > img,
+.circle-link__img > img,
+.step-card__photo > img,
+.news-mini__img > img,
+.thumb-strip span > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.photo:has(> img) { padding: 0; }
+
 .photo--sand  { background: linear-gradient(150deg, #e7dcc4, #cbb590); color: #6b5c40; }
 .photo--water { background: linear-gradient(150deg, #d5e3dc, #aec6bd); color: #4d6360; }
 .photo--mist  { background: linear-gradient(150deg, #d9e5da, #aac3b8); color: #3f5350; }
