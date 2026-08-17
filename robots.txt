@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://riririsu.github.io/animal/sitemap.xml

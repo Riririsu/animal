@@ -6,6 +6,32 @@ Claude Design の「Oasis デザイン v2 全ページ」を、HTML / CSS / Java
 
 ---
 
+## 公開URL
+
+**https://riririsu.github.io/animal/**
+
+このブランチに push すると GitHub Actions が自動でサイトを公開します。
+公開されるのは HTML・CSS・JS・画像だけで、`README.md` と `docs/` は含まれません
+（リポジトリ上には残ります）。
+
+### 初回だけ必要な設定
+
+リポジトリの **Settings → Pages → Build and deployment → Source** を
+**「GitHub Actions」** に変更してください。これを行うと公開が始まります。
+
+### 独自ドメインにする場合
+
+1. `Settings → Pages → Custom domain` にドメインを入力
+2. サイト側は、全ページの `canonical` / `og:url` / `og:image` と
+   `robots.txt` / `sitemap.xml` / `index.html` の構造化データにある
+   `https://riririsu.github.io/animal/` を新しいドメインに置き換え
+
+```bash
+sed -i 's|https://riririsu.github.io/animal/|https://example.com/|g' *.html robots.txt sitemap.xml
+```
+
+---
+
 ## ファイル構成
 
 ```
@@ -29,6 +55,12 @@ Claude Design の「Oasis デザイン v2 全ページ」を、HTML / CSS / Java
 │
 ├── images/
 │   └── logo.jpg    ロゴ
+│
+├── .github/workflows/
+│   └── pages.yml           GitHub Pages への自動公開
+│
+├── robots.txt              検索エンジン向けの案内
+├── sitemap.xml             ページ一覧（検索エンジン向け）
 │
 └── docs/
     ├── photo-guide.md      写真の差し替え対応表（どの行を何に置き換えるか）
@@ -165,16 +197,7 @@ Googleマップの埋め込みコード（`<iframe>`）に置き換えてくだ�
 どうぶつ・メニュー・お知らせの各項目はデザイン通りのサンプルです。実際の内容に差し替えてください。
 `news.html` のページ送り（1・2・3・次へ）も、記事が増えたら実際のリンク先に変えてください。
 
-### 7. SNSシェア用の画像URL（`og:image`）
-全ページの `<meta property="og:image" content="images/logo.jpg">` は相対パスです。
-**公開ドメインが決まったら絶対URLに書き換えてください。** 相対パスのままだと、
-LINE や X でシェアしたときにサムネイルが表示されません。
-
-```bash
-sed -i 's|content="images/logo.jpg"|content="https://example.com/images/logo.jpg"|g' *.html
-```
-
-### 8. 構造化データ（`index.html`）
+### 7. 構造化データ（`index.html`）
 検索結果に営業時間や地図を出すための `application/ld+json` を入れています。
 **電話番号・住所・Instagram の URL が仮のままなので、必ず実際の値に書き換えてください。**
 仮の値のまま公開すると、検索エンジンに誤った店舗情報が伝わります。
