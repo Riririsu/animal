@@ -6,7 +6,8 @@
 <title>ご利用ルール・注意事項｜あにまるカフェ Oasis</title>
 <meta name="description" content="動物たちが安心して暮らせるよう、ふれあいの流れとお願いしたいこと・ご遠慮いただくことをご案内します。">
 <meta name="theme-color" content="#2E5E3A">
-<link rel="icon" href="images/logo.jpg">
+<link rel="icon" href="images/logo-160.jpg">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 
 <link rel="canonical" href="https://riririsu.github.io/animal/rules.html">
 
@@ -18,15 +19,21 @@
 <meta property="og:title" content="ご利用ルール・注意事項｜あにまるカフェ Oasis">
 <meta property="og:description" content="動物たちが安心して暮らせるよう、ふれあいの流れとお願いしたいこと・ご遠慮いただくことをご案内します。">
 <meta property="og:url" content="https://riririsu.github.io/animal/rules.html">
-<meta property="og:image" content="https://riririsu.github.io/animal/images/logo.jpg">
+<meta property="og:image" content="https://riririsu.github.io/animal/images/logo-og.jpg">
 <meta property="og:locale" content="ja_JP">
 <meta name="twitter:card" content="summary_large_image">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;700&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/animations.css">
+
+<!-- Webフォントは表示をブロックしないように読み込む。
+     先に端末のフォントで表示し、読み込めた時点で差し替わります。
+     こうしないと、Google のサーバーが遅いときにページ全体が真っ白のまま待たされます。 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;700&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;700&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;700&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap"></noscript>
 </head>
 <body>
 
@@ -73,7 +80,7 @@
 <!-- ========== ヘッダー ========== -->
 <header class="site-header">
   <div class="site-header__inner">
-    <a class="logo" href="index.html"><img src="images/logo.jpg" alt="あにまるカフェ Oasis" width="1024" height="1024"></a>
+    <a class="logo" href="index.html"><img src="images/logo-160.jpg" alt="あにまるカフェ Oasis" width="160" height="160" fetchpriority="high"></a>
 
     <nav class="gnav" aria-label="メインメニュー">
       <a class="gnav__link" href="index.html">HOME<span class="gnav__ja">ホーム</span></a>
@@ -203,7 +210,7 @@
 
   <div class="site-footer__inner">
     <div>
-      <img class="site-footer__logo" src="images/logo.jpg" alt="あにまるカフェ Oasis" width="1024" height="1024" loading="lazy">
+      <img class="site-footer__logo" src="images/logo-160.jpg" alt="あにまるカフェ Oasis" width="160" height="160" loading="lazy" decoding="async">
       <p class="site-footer__addr">鹿児島県霧島市国分—————<br>TEL 000-000-0000<br>11:00 – 19:00／火曜定休</p>
     </div>
     <nav class="footer-links" aria-label="フッターメニュー1">

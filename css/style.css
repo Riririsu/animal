@@ -477,12 +477,48 @@ button {
   font-size: clamp(13.5px, 12.46px + 0.28vw, 16px);
   line-height: 2.1;
 }
-.hero__actions {
+/* 来店前に知りたい情報（営業状況・予約要否・入場料） */
+.hero__facts {
   display: flex;
   flex-wrap: wrap;
-  gap: clamp(10px, 0.66vw + 7.5px, 16px);
+  gap: clamp(8px, 0.66vw + 5.5px, 10px);
   margin-top: clamp(22px, 1.3vw + 17px, 34px);
+  list-style: none;
+  padding: 0;
 }
+.hero__fact {
+  display: flex;
+  align-items: center;
+  padding: clamp(8px, 0.22vw + 7px, 10px) clamp(14px, 0.44vw + 12px, 18px);
+  border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, .82);
+  border: 1px solid var(--c-line);
+  font-size: var(--fs-btn);
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--c-green-deep);
+  white-space: nowrap;
+}
+/* 営業中 */
+.hero__fact--now {
+  background: var(--c-green);
+  border-color: var(--c-green);
+  color: #fff;
+}
+.hero__fact--now::before {
+  content: "";
+  width: 8px; height: 8px;
+  margin-right: 9px;
+  border-radius: 50%;
+  background: #A9E39B;
+}
+/* 定休日・営業時間外。落ち着いた見た目にして、ランプも消す */
+.hero__fact--closed {
+  background: rgba(255, 255, 255, .82);
+  border-color: var(--c-line);
+  color: var(--c-text);
+}
+.hero__fact--closed::before { display: none; }
 
 .hero__badge {
   position: absolute;

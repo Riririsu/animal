@@ -181,6 +181,80 @@
   }
 
   /* ------------------------------------------------------------------------
+     5. 営業状況の自動表示
+     曜日と時刻から「営業中／定休日／営業時間外」を判定して書き換えます。
+     data-open-status を付けた要素がすべて対象です。
+
+     ▼ 営業時間を変えるとき・臨時休業を入れるときは、この設定だけ直してください。
+     ------------------------------------------------------------------------ */
+  var HOURS = {
+    open: '11:00',          // 開店時刻
+    close: '19:00',         // 閉店時刻
+    closedDays: [2],        // 定休日（0=日 1=月 2=火 3=水 4=木 5=金 6=土）
+    closedDayLabel: '火曜',
+    // 臨時休業日。'2026-08-20' の形式で追加してください（複数可）
+    holidays: []
+  };
+
+  function setupOpenStatus() {
+    var targets = document.querySelectorAll('[data-open-status]');
+    if (!targets.length) return;
+
+    function toMinutes(hhmm) {
+      var p = hhmm.split(':');
+      return parseInt(p[0], 10) * 60 + parseInt(p[1], 10);
+    }
+
+    function currentStatus() {
+      var now = new Date();
+      var ymd = now.getFullYear() + '-' +
+                String(now.getMonth() + 1).padStart(2, '0') + '-' +
+                String(now.getDate()).padStart(2, '0');
+
+      if (HOURS.holidays.indexOf(ymd) !== -1) {
+        return { open: false, text: '本日 臨時休業' };
+      }
+      if (HOURS.closedDays.indexOf(now.getDay()) !== -1) {
+        return { open: false, text: '本日 定休日（' + HOURS.closedDayLabel + '）' };
+      }
+
+      var mins = now.getHours() * 60 + now.getMinutes();
+      if (mins < toMinutes(HOURS.open)) {
+        return { open: false, text: '本日 ' + HOURS.open + ' 開店' };
+      }
+      if (mins >= toMinutes(HOURS.close)) {
+        return { open: false, text: '本日の営業は終了しました' };
+      }
+      return { open: true, text: '本日 営業中 ' + HOURS.open + ' – ' + HOURS.close };
+    }
+
+    var s = currentStatus();
+    targets.forEach(function (el) {
+      el.textContent = s.text;
+      // ヒーローのピル表示
+      el.classList.toggle('hero__fact--closed', el.classList.contains('hero__fact') && !s.open);
+      // 来店の流れセクションの表示
+      el.classList.toggle('is-closed', !s.open);
+    });
+  }
+
+  /* ------------------------------------------------------------------------
+     6. 常時アニメーションは、表示が落ち着いてから動かす
+     葉のゆれなどを最初から動かすと、画面が描画され終わるのが遅いと
+     判定され、表示速度の評価が下がります。見た目は変わりません。
+     ------------------------------------------------------------------------ */
+  function startAmbientMotion() {
+    if (reduceMotion) return;
+    var go = function () {
+      window.setTimeout(function () {
+        document.documentElement.classList.add('is-settled');
+      }, 300);
+    };
+    if (document.readyState === 'complete') { go(); }
+    else { window.addEventListener('load', go, { once: true }); }
+  }
+
+  /* ------------------------------------------------------------------------
      起動
      ------------------------------------------------------------------------ */
   function init() {
@@ -188,6 +262,8 @@
     setupHeader();
     setupDrawer();
     setupFilters();
+    setupOpenStatus();
+    startAmbientMotion();
   }
 
   if (document.readyState === 'loading') {

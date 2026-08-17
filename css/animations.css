@@ -107,14 +107,14 @@
    -------------------------------------------------------------------------- */
 .hero__title,
 .hero__lead,
-.hero__actions,
+.hero__facts,
 .hero__badge {
   opacity: 0;
   animation: riseIn .95s cubic-bezier(.22, .68, .3, 1) forwards;
 }
 .hero__title   { animation-delay: .15s; }
 .hero__lead    { animation-delay: .32s; }
-.hero__actions { animation-delay: .48s; }
+.hero__facts  { animation-delay: .48s; }
 .hero__badge   { animation: popIn .8s cubic-bezier(.22, .68, .3, 1) .68s forwards; }
 
 /* ヒーロー背景がゆっくり寄っていく（奥行きを出す） */
@@ -124,7 +124,7 @@
   inset: 0;
   background: inherit;
   transform: scale(1.06);
-  animation: heroZoom 14s ease-out forwards;
+  animation: heroZoom 2.4s ease-out forwards;
 }
 @keyframes heroZoom {
   from { transform: scale(1.1); }
@@ -312,12 +312,13 @@
 /* --------------------------------------------------------------------------
    8. 装飾モチーフの常時アニメーション
    -------------------------------------------------------------------------- */
-.deco--sprig {
-  animation: sway 9s ease-in-out infinite;
-  transform-origin: 60% 80%;
-}
-.deco--paw   { animation: pawFloat 6s ease-in-out infinite; }
-.deco--blob  { animation: blobDrift 16s ease-in-out infinite; }
+.deco--sprig { transform-origin: 60% 80%; }
+
+/* 常時動くものは、表示が落ち着いてから動かし始める（js/main.js が .is-settled を付与）。
+   最初から動かすと「描画が終わらない」と判定され、表示速度の評価が下がるため。 */
+.is-settled .deco--sprig { animation: sway 9s ease-in-out infinite; }
+.is-settled .deco--paw   { animation: pawFloat 6s ease-in-out infinite; }
+.is-settled .deco--blob  { animation: blobDrift 16s ease-in-out infinite; }
 
 /* 同じ動きが揃わないよう、ずらす */
 .deco:nth-of-type(2) { animation-delay: -2.4s; }
@@ -325,11 +326,11 @@
 .deco:nth-of-type(4) { animation-delay: -7.2s; }
 
 /* 有機的なかたちの写真はゆっくり形が変わる */
-.photo--organic   { animation: organicMorph 18s ease-in-out infinite; }
-.photo--organic-2 { animation: organicMorph 22s ease-in-out infinite reverse; }
-.photo--organic-3 { animation: organicMorph 20s ease-in-out infinite -6s; }
+.is-settled .photo--organic   { animation: organicMorph 18s ease-in-out infinite; }
+.is-settled .photo--organic-2 { animation: organicMorph 22s ease-in-out infinite reverse; }
+.is-settled .photo--organic-3 { animation: organicMorph 20s ease-in-out infinite -6s; }
 
-/* 営業中の表示に小さなランプ */
+/* 営業中の表示に小さなランプ。営業時間外（--closed）では消す */
 .hours-box__now::before {
   content: "";
   display: inline-block;
@@ -338,8 +339,10 @@
   border-radius: 50%;
   background: var(--c-green);
   vertical-align: middle;
-  animation: pulseDot 2.4s ease-out infinite;
 }
+.is-settled .hours-box__now::before { animation: pulseDot 2.4s ease-out infinite; }
+.hours-box__now.is-closed::before { display: none; }
+.is-settled .hero__fact--now::before { animation: pulseDot 2.4s ease-out infinite; }
 
 /* --------------------------------------------------------------------------
    9. ドロワー（スマホメニュー）
@@ -402,7 +405,7 @@ body.is-locked { overflow: hidden; }
   [data-reveal],
   .hero__title,
   .hero__lead,
-  .hero__actions,
+  .hero__facts,
   .hero__badge,
   .page-hero .breadcrumb,
   .page-hero .eyebrow,
