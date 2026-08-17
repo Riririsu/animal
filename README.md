@@ -14,10 +14,14 @@ Claude Design の「Oasis デザイン v2 全ページ」を、HTML / CSS / Java
 公開されるのは HTML・CSS・JS・画像だけで、`README.md` と `docs/` は含まれません
 （リポジトリ上には残ります）。
 
-### 初回だけ必要な設定
+公開済みです（初回デプロイ 2026-08-17、GitHub 側のデプロイ結果は success）。
 
-リポジトリの **Settings → Pages → Build and deployment → Source** を
-**「GitHub Actions」** に変更してください。これを行うと公開が始まります。
+以降は push するだけで自動更新されます。
+公開の履歴は **Actions → Deploy to GitHub Pages** から確認できます。
+
+もしページが表示されない場合は、リポジトリの
+**Settings → Pages → Build and deployment → Source** が
+**「GitHub Actions」** になっているか確認してください。
 
 ### 独自ドメインにする場合
 

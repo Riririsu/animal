@@ -3,9 +3,9 @@
 # このブランチに push すると、自動でサイトが公開されます。
 # 公開先: https://riririsu.github.io/animal/
 #
-# ※ 初回だけ、GitHub の設定画面で公開方法を選ぶ必要があります。
-#    リポジトリの Settings → Pages → Build and deployment → Source を
-#    「GitHub Actions」に変更してください。
+# ページが表示されない場合は、リポジトリの
+# Settings → Pages → Build and deployment → Source が
+# 「GitHub Actions」になっているか確認してください。
 
 name: Deploy to GitHub Pages
 
