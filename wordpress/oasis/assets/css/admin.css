@@ -1,0 +1,67 @@
+/* どうぶつ編集画面・設定画面の見た目 */
+
+.oasis-field { margin: 0 0 26px; }
+.oasis-label {
+	display: block;
+	margin-bottom: 4px;
+	font-size: 14px;
+	font-weight: 600;
+}
+.oasis-field .description { margin: 0 0 8px; }
+
+.oasis-media__list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	min-height: 8px;
+	margin-bottom: 10px;
+}
+.oasis-media__item {
+	position: relative;
+	display: block;
+	width: 96px;
+	height: 96px;
+	border: 1px solid #dcdcde;
+	border-radius: 8px;
+	overflow: hidden;
+	background: #f6f7f7;
+	cursor: move;
+}
+.oasis-media__item img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+.oasis-media__remove {
+	position: absolute;
+	top: 2px; right: 2px;
+	width: 22px; height: 22px;
+	padding: 0;
+	line-height: 1;
+	border: 0;
+	border-radius: 50%;
+	background: rgba(0, 0, 0, .62);
+	color: #fff;
+	font-size: 16px;
+	cursor: pointer;
+}
+.oasis-media__remove:hover { background: #b32d2e; }
+
+.oasis-table th { width: 160px; }
+
+.oasis-settings h2 {
+	margin-top: 32px;
+	padding-bottom: 8px;
+	border-bottom: 1px solid #dcdcde;
+}
+.oasis-import {
+	max-width: 720px;
+	margin-top: 10px;
+	padding: 18px 22px;
+	border: 1px solid #dcdcde;
+	border-left: 4px solid #2E5E3A;
+	border-radius: 4px;
+	background: #fff;
+}
+.oasis-import h2 { margin-top: 0; border: 0; }

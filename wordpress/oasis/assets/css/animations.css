@@ -1,0 +1,435 @@
+@charset "UTF-8";
+/* ==========================================================================
+   あにまるカフェ Oasis — アニメーション
+   ・スクロール連動の表示は js/main.js（IntersectionObserver）が
+     .is-visible を付与することで発火します。
+   ・末尾の prefers-reduced-motion で、動きが苦手な方の設定を尊重して
+     すべての動きを止めます。
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. キーフレーム
+   -------------------------------------------------------------------------- */
+
+/* 下からふわっと */
+@keyframes riseIn {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* 横からすっと */
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-32px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(32px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ふくらむように */
+@keyframes popIn {
+  0%   { opacity: 0; transform: scale(.88); }
+  60%  { opacity: 1; transform: scale(1.03); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* 葉が風にゆれる */
+@keyframes sway {
+  0%, 100% { transform: rotate(var(--deco-rot, 0deg)) translateY(0); }
+  50%      { transform: rotate(calc(var(--deco-rot, 0deg) + 3.5deg)) translateY(-8px); }
+}
+
+/* 足あとがふわふわ */
+@keyframes pawFloat {
+  0%, 100% { transform: rotate(var(--deco-rot, 0deg)) translateY(0); opacity: .34; }
+  50%      { transform: rotate(var(--deco-rot, 0deg)) translateY(-10px); opacity: .5; }
+}
+
+/* 水彩のにじみがゆっくり呼吸する */
+@keyframes blobDrift {
+  0%, 100% { transform: rotate(var(--deco-rot, 0deg)) scale(1); }
+  50%      { transform: rotate(calc(var(--deco-rot, 0deg) + 4deg)) scale(1.06); }
+}
+
+/* 有機的なかたちがゆっくり変形する */
+@keyframes organicMorph {
+  0%, 100% { border-radius: 56% 44% 52% 48% / 48% 56% 44% 52%; }
+  33%      { border-radius: 44% 56% 46% 54% / 56% 44% 56% 44%; }
+  66%      { border-radius: 52% 48% 58% 42% / 44% 58% 42% 56%; }
+}
+
+/* 営業中ランプの点滅 */
+@keyframes pulseDot {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(46, 94, 58, .5); }
+  70%      { box-shadow: 0 0 0 10px rgba(46, 94, 58, 0); }
+}
+
+/* --------------------------------------------------------------------------
+   2. スクロール連動の表示
+   data-reveal="up|left|right|pop" を要素に付けると、
+   画面に入ったタイミングで .is-visible が付いて動き出します。
+   -------------------------------------------------------------------------- */
+[data-reveal] {
+  opacity: 0;
+  will-change: opacity, transform;
+}
+
+[data-reveal].is-visible {
+  animation-duration: .85s;
+  animation-timing-function: cubic-bezier(.22, .68, .3, 1);
+  animation-fill-mode: both;
+  animation-delay: var(--reveal-delay, 0s);
+}
+
+[data-reveal="up"].is-visible,
+[data-reveal=""].is-visible   { animation-name: riseIn; }
+[data-reveal="left"].is-visible  { animation-name: slideInLeft; }
+[data-reveal="right"].is-visible { animation-name: slideInRight; }
+[data-reveal="pop"].is-visible   { animation-name: popIn; animation-duration: .7s; }
+
+/* JS が無効なときは最初から見えるようにしておく（内容が消えないための保険） */
+.no-js [data-reveal] { opacity: 1; }
+
+/* 連続する子要素を少しずつ遅らせる（カード列などのずらし表示） */
+/* 4つごとに区切って遅らせる。どうぶつ一覧のように件数が多くても、
+   スクロールで入ってきた行がその都度きれいに流れて出ます。 */
+[data-reveal-stagger] > *                  { --reveal-delay: 0s; }
+[data-reveal-stagger] > :nth-child(4n + 1) { --reveal-delay: .00s; }
+[data-reveal-stagger] > :nth-child(4n + 2) { --reveal-delay: .09s; }
+[data-reveal-stagger] > :nth-child(4n + 3) { --reveal-delay: .18s; }
+[data-reveal-stagger] > :nth-child(4n)     { --reveal-delay: .27s; }
+
+/* --------------------------------------------------------------------------
+   3. ヒーローの登場（読み込み直後に順番に出る）
+   -------------------------------------------------------------------------- */
+.hero__title,
+.hero__lead,
+.hero__facts,
+.hero__badge {
+  opacity: 0;
+  animation: riseIn .95s cubic-bezier(.22, .68, .3, 1) forwards;
+}
+.hero__title   { animation-delay: .15s; }
+.hero__lead    { animation-delay: .32s; }
+.hero__facts  { animation-delay: .48s; }
+.hero__badge   { animation: popIn .8s cubic-bezier(.22, .68, .3, 1) .68s forwards; }
+
+/* ヒーロー背景がゆっくり寄っていく（奥行きを出す） */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: inherit;
+  transform: scale(1.06);
+  animation: heroZoom 2.4s ease-out forwards;
+}
+@keyframes heroZoom {
+  from { transform: scale(1.1); }
+  to   { transform: scale(1); }
+}
+
+/* 下層ページの見出しも軽く出す */
+.page-hero .breadcrumb,
+.page-hero .eyebrow,
+.page-hero__title,
+.page-hero .lead {
+  opacity: 0;
+  animation: riseIn .8s cubic-bezier(.22, .68, .3, 1) forwards;
+}
+.page-hero .breadcrumb  { animation-delay: .05s; }
+.page-hero .eyebrow     { animation-delay: .15s; }
+.page-hero__title       { animation-delay: .25s; }
+.page-hero .lead        { animation-delay: .38s; }
+
+/* --------------------------------------------------------------------------
+   4. ヘッダー：スクロールすると引き締まる
+   -------------------------------------------------------------------------- */
+.site-header {
+  transition: box-shadow .35s ease, background-color .35s ease;
+}
+.site-header__inner {
+  transition: padding .35s ease;
+}
+.logo img {
+  transition: height .35s ease, transform .35s ease;
+}
+
+.site-header.is-scrolled {
+  background: rgba(251, 247, 238, .93);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--sh-head);
+}
+.site-header.is-scrolled .site-header__inner { padding-block: 8px; }
+.site-header.is-scrolled .logo img { height: 46px; }
+
+.logo:hover img { transform: rotate(-3deg) scale(1.04); }
+
+/* --------------------------------------------------------------------------
+   5. グローバルナビ：下線がすっと伸びる
+   -------------------------------------------------------------------------- */
+.gnav__link::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 2px;
+  background: var(--c-green);
+  border-radius: 2px;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform .3s cubic-bezier(.22, .68, .3, 1);
+}
+.gnav__link:hover::after,
+.gnav__link:focus-visible::after { transform: scaleX(1); }
+.gnav__link[aria-current="page"]::after { transform: scaleX(1); }
+
+.gnav__ja { transition: color .25s ease; }
+.gnav__link:hover .gnav__ja { color: var(--c-leaf-text); }
+
+/* --------------------------------------------------------------------------
+   6. ボタン：浮き上がる／矢印が進む
+   -------------------------------------------------------------------------- */
+.btn {
+  position: relative;
+  overflow: hidden;
+  transition: transform .28s cubic-bezier(.22, .68, .3, 1),
+              box-shadow .28s ease,
+              background-color .28s ease,
+              color .28s ease,
+              border-color .28s ease;
+}
+.btn:hover  { transform: translateY(-3px); }
+.btn:active { transform: translateY(-1px); }
+
+.btn--primary:hover { box-shadow: 0 12px 26px rgba(46, 94, 58, .3); }
+.btn--gold:hover    { box-shadow: 0 12px 26px rgba(201, 164, 106, .38); }
+.btn--outline:hover,
+.btn--outline-green:hover { box-shadow: 0 10px 22px rgba(46, 94, 58, .16); }
+
+/* 光がさっと流れる */
+.btn::after {
+  content: "";
+  position: absolute;
+  top: 0; left: -40%;
+  width: 30%; height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .34), transparent);
+  transform: skewX(-18deg);
+  transition: left .55s ease;
+  pointer-events: none;
+}
+.btn:hover::after { left: 120%; }
+
+.btn__arrow {
+  transition: transform .3s cubic-bezier(.22, .68, .3, 1);
+}
+.btn:hover .btn__arrow { transform: translateX(4px); }
+
+.link-arrow {
+  transition: transform .25s ease, color .25s ease;
+}
+.link-arrow:hover { transform: translateX(4px); }
+
+/* --------------------------------------------------------------------------
+   7. カード：持ち上がる／写真がすこし寄る
+   -------------------------------------------------------------------------- */
+.card {
+  transition: transform .35s cubic-bezier(.22, .68, .3, 1), box-shadow .35s ease;
+}
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--sh-lift);
+}
+.card__thumb {
+  transition: transform .5s cubic-bezier(.22, .68, .3, 1);
+  transform-origin: center;
+}
+.card:hover .card__thumb { transform: scale(1.06); }
+.card__name { transition: color .25s ease; }
+.card:hover .card__name { color: var(--c-green); }
+
+.step-card {
+  transition: transform .35s cubic-bezier(.22, .68, .3, 1), box-shadow .35s ease;
+}
+.step-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--sh-lift);
+}
+.step-card__num { transition: transform .35s cubic-bezier(.22, .68, .3, 1), background-color .3s ease; }
+.step-card:hover .step-card__num {
+  transform: scale(1.12) rotate(-6deg);
+  background: var(--c-water);
+}
+
+/* 丸い写真リンク */
+.circle-link__img {
+  transition: transform .4s cubic-bezier(.22, .68, .3, 1),
+              border-color .3s ease,
+              box-shadow .35s ease;
+}
+.circle-link:hover .circle-link__img {
+  transform: translateY(-6px) scale(1.05);
+  border-color: var(--c-mint);
+  box-shadow: 0 14px 28px rgba(46, 94, 58, .22);
+}
+.circle-link__name { transition: color .25s ease; }
+.circle-link:hover .circle-link__name { color: var(--c-green); }
+
+/* お知らせの小カード・一行リスト */
+.news-mini {
+  transition: transform .3s cubic-bezier(.22, .68, .3, 1), box-shadow .3s ease;
+}
+.news-mini:hover {
+  transform: translateX(6px);
+  box-shadow: var(--sh-card);
+}
+.news-row { transition: background-color .25s ease, padding-left .25s ease; }
+.news-row:hover {
+  background: var(--c-cream-2);
+  padding-left: 10px;
+}
+.news-row__title { transition: color .25s ease; }
+.news-row:hover .news-row__title { color: var(--c-green); }
+
+/* 絞り込みチップ・ページャ */
+.chip,
+.pager__item {
+  transition: background-color .25s ease, border-color .25s ease,
+              color .25s ease, transform .25s ease;
+}
+.chip:hover,
+.pager__item:hover { transform: translateY(-2px); }
+
+/* 表の行 */
+.rows:not(.rows--onGreen) .row { transition: background-color .25s ease; }
+.rows:not(.rows--onGreen) .row:hover { background: rgba(223, 237, 233, .4); }
+
+/* パネル */
+.panel { transition: transform .35s cubic-bezier(.22, .68, .3, 1), box-shadow .35s ease; }
+.panel--gold:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(201, 164, 106, .2); }
+
+/* --------------------------------------------------------------------------
+   8. 装飾モチーフの常時アニメーション
+   -------------------------------------------------------------------------- */
+.deco--sprig { transform-origin: 60% 80%; }
+
+/* 常時動くものは、表示が落ち着いてから動かし始める（js/main.js が .is-settled を付与）。
+   最初から動かすと「描画が終わらない」と判定され、表示速度の評価が下がるため。 */
+.is-settled .deco--sprig { animation: sway 9s ease-in-out infinite; }
+.is-settled .deco--paw   { animation: pawFloat 6s ease-in-out infinite; }
+.is-settled .deco--blob  { animation: blobDrift 16s ease-in-out infinite; }
+
+/* 同じ動きが揃わないよう、ずらす */
+.deco:nth-of-type(2) { animation-delay: -2.4s; }
+.deco:nth-of-type(3) { animation-delay: -4.8s; }
+.deco:nth-of-type(4) { animation-delay: -7.2s; }
+
+/* 有機的なかたちの写真はゆっくり形が変わる */
+.is-settled .photo--organic   { animation: organicMorph 18s ease-in-out infinite; }
+.is-settled .photo--organic-2 { animation: organicMorph 22s ease-in-out infinite reverse; }
+.is-settled .photo--organic-3 { animation: organicMorph 20s ease-in-out infinite -6s; }
+
+/* 営業中の表示に小さなランプ。営業時間外（--closed）では消す */
+.hours-box__now::before {
+  content: "";
+  display: inline-block;
+  width: 8px; height: 8px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: var(--c-green);
+  vertical-align: middle;
+}
+.is-settled .hours-box__now::before { animation: pulseDot 2.4s ease-out infinite; }
+.hours-box__now.is-closed::before { display: none; }
+.is-settled .hero__fact--now::before { animation: pulseDot 2.4s ease-out infinite; }
+
+/* --------------------------------------------------------------------------
+   9. ドロワー（スマホメニュー）
+   -------------------------------------------------------------------------- */
+.drawer {
+  transition: visibility 0s linear .4s;
+}
+.drawer.is-open { transition-delay: 0s; }
+
+.drawer__scrim {
+  transition: opacity .4s ease;
+}
+.drawer__panel {
+  transition: transform .42s cubic-bezier(.22, .68, .3, 1);
+}
+
+/* 開いたときにリンクが順番に出る */
+.drawer.is-open .drawer__link {
+  opacity: 0;
+  animation: riseIn .5s cubic-bezier(.22, .68, .3, 1) forwards;
+}
+.drawer.is-open .drawer__link:nth-child(1) { animation-delay: .12s; }
+.drawer.is-open .drawer__link:nth-child(2) { animation-delay: .17s; }
+.drawer.is-open .drawer__link:nth-child(3) { animation-delay: .22s; }
+.drawer.is-open .drawer__link:nth-child(4) { animation-delay: .27s; }
+.drawer.is-open .drawer__link:nth-child(5) { animation-delay: .32s; }
+.drawer.is-open .drawer__link:nth-child(6) { animation-delay: .37s; }
+.drawer.is-open .drawer__link:nth-child(7) { animation-delay: .42s; }
+.drawer.is-open .drawer__link:nth-child(8) { animation-delay: .47s; }
+
+/* ハンバーガー → ×  */
+.nav-toggle__bar {
+  transition: transform .35s cubic-bezier(.22, .68, .3, 1), opacity .2s ease;
+}
+.nav-toggle[aria-expanded="true"] .nav-toggle__bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] .nav-toggle__bar:nth-child(2) { opacity: 0; }
+.nav-toggle[aria-expanded="true"] .nav-toggle__bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ドロワーを開いている間は背面をスクロールさせない */
+body.is-locked { overflow: hidden; }
+
+/* --------------------------------------------------------------------------
+   10. 動きを減らす設定への対応
+   OS 側で「視差効果を減らす」を有効にしている場合は、
+   すべてのアニメーションを止めて、内容だけを静止表示します。
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* 表示前提の要素が消えたままにならないようにする */
+  [data-reveal],
+  .hero__title,
+  .hero__lead,
+  .hero__facts,
+  .hero__badge,
+  .page-hero .breadcrumb,
+  .page-hero .eyebrow,
+  .page-hero__title,
+  .page-hero .lead,
+  .drawer.is-open .drawer__link {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .btn:hover,
+  .card:hover,
+  .step-card:hover,
+  .news-mini:hover,
+  .panel--gold:hover { transform: none !important; }
+}
+
+/* --------------------------------------------------------------------------
+   どうぶつ個別ページ：サムネイルで写真を切り替えたとき
+   -------------------------------------------------------------------------- */
+@keyframes photoSwap {
+  from { opacity: 0; transform: scale(1.02); }
+  to   { opacity: 1; transform: none; }
+}
+.is-swapped { animation: photoSwap .45s cubic-bezier(.22, .68, .3, 1); }
+
+@media (prefers-reduced-motion: reduce) {
+  .is-swapped { animation: none; }
+}

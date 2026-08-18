@@ -188,7 +188,15 @@
 
      ▼ 営業時間を変えるとき・臨時休業を入れるときは、この設定だけ直してください。
      ------------------------------------------------------------------------ */
-  var HOURS = {
+  /* WordPress 版では、管理画面の「Oasis サイト設定 → 営業時間」で設定した値が
+     OASIS_HOURS として渡ってきます。渡ってこない場合は下の既定値を使います。 */
+  var HOURS = (typeof OASIS_HOURS !== 'undefined' && OASIS_HOURS) ? {
+    open:           OASIS_HOURS.open           || '11:00',
+    close:          OASIS_HOURS.close          || '19:00',
+    closedDays:     OASIS_HOURS.closedDays     || [],
+    closedDayLabel: OASIS_HOURS.closedDayLabel || '',
+    holidays:       OASIS_HOURS.holidays       || []
+  } : {
     open: '11:00',          // 開店時刻
     close: '19:00',         // 閉店時刻
     closedDays: [2],        // 定休日（0=日 1=月 2=火 3=水 4=木 5=金 6=土）
