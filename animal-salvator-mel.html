@@ -130,7 +130,7 @@
   </div>
 </div>
 
-<main id="main">
+<main id="main" data-adopt="on">
 
   <section class="section" style="padding:26px 0 0">
     <div class="wrap">
@@ -153,7 +153,6 @@
         <div class="thumb-strip" data-gallery data-gallery-target="#animal-photo">
           <button type="button" data-photo="images/a/salvator-mel.webp" data-alt="サルバトールモニター（メラニスティック）の写真1枚目" aria-current="true"><img src="images/a/salvator-mel-t.webp" width="260" height="195" decoding="async" alt="サルバトールモニター（メラニスティック）の写真1枚目"></button>
           <button type="button" data-photo="images/a/salvator-mel-2.webp" data-alt="サルバトールモニター（メラニスティック）の写真2枚目" aria-current="false"><img src="images/a/salvator-mel-2t.webp" width="260" height="195" decoding="async" alt="サルバトールモニター（メラニスティック）の写真2枚目"></button>
-          <button type="button" data-photo="images/a/salvator-mel-pop.webp" data-alt="サルバトールモニター（メラニスティック）の店内POPカード" aria-current="false"><img src="images/a/salvator-mel-popt.webp" width="260" height="195" decoding="async" alt="サルバトールモニター（メラニスティック）の店内POPカード"></button>
         </div>
       </div>
 
@@ -170,7 +169,9 @@
           <div class="row"><span class="row__label">食べ物</span><span class="row__value">魚・甲殻類・昆虫・小動物・卵など、さまざまなものを食べます。</span></div>
         </div>
 
-        <div class="panel panel--cream" style="margin-top:22px">
+        <!-- お迎えのご相談。このページで出したくないときは、
+             ページ上部の <main id="main" data-adopt="on"> を "off" に変えてください。 -->
+        <div class="panel panel--cream adopt-panel" style="margin-top:22px">
           <h2 class="panel__title" style="margin-bottom:10px">お迎えのご相談</h2>
           <p class="note" style="color:var(--c-text)">お迎えできる子は時期によって変わります。飼育に必要な環境や費用を、スタッフが一つずつご説明しますので、まずはお気軽にお問い合わせください。</p>
           <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:20px">
