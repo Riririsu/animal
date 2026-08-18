@@ -162,8 +162,12 @@
 
   <!-- ========== ヒーロー ========== -->
   <section class="hero">
-    <!-- 写真に差し替える場合は、この要素を <img> に置き換えてください -->
-    <p class="hero__caption">実物写真：動物と過ごすカフェ空間</p>
+    <!-- ヒーロー写真。左半分に文字が重なるので、被写体が右寄りの写真を選んでいます -->
+    <picture>
+      <source media="(max-width:700px)" srcset="images/hero-sp.webp" width="900" height="700">
+      <img class="hero__img" src="images/hero.webp" width="1800" height="900"
+           fetchpriority="high" decoding="async" alt="店内でくつろぐラグドールのれんげ">
+    </picture>
     <div class="hero__veil"></div>
     <svg class="deco deco--sprig" style="top:-46px;left:-40px;width:250px;height:250px;--deco-rot:-18deg" aria-hidden="true"><use href="#v2-sprig"/></svg>
 
@@ -206,9 +210,9 @@
       </div>
 
       <div class="photo-cluster" data-reveal="right">
-        <div class="photo photo--organic photo-cluster__a">実物写真：店内の様子</div>
-        <div class="photo photo--sand photo--organic-2 photo--framed photo-cluster__b">実物写真：ふれあい</div>
-        <div class="photo photo--mist photo--circle photo--framed photo-cluster__c">実物写真：どうぶつ</div>
+        <img class="photo photo--organic photo-cluster__a" src="images/top-a.webp" width="900" height="670" loading="lazy" decoding="async" alt="スタッフの腕の中でくつろぐミーアキャット">
+        <img class="photo photo--sand photo--organic-2 photo--framed photo-cluster__b" src="images/top-b.webp" width="480" height="480" loading="lazy" decoding="async" alt="ケージの中でくつろぐうさぎたち">
+        <img class="photo photo--mist photo--circle photo--framed photo-cluster__c" src="images/top-c.webp" width="340" height="340" loading="lazy" decoding="async" alt="ハルマヘラホカケトカゲ">
       </div>
     </div>
   </section>
@@ -225,14 +229,14 @@
       <div class="section__head" data-reveal="up">
         <p class="eyebrow">ANIMALS</p>
         <h2 class="section-title">どうぶつ紹介</h2>
-        <p class="lead">店内で暮らす動物たちをご紹介します。体調や日によって、ふれあいをお休みしている場合があります。</p>
+        <p class="lead">店内で暮らす22種のどうぶつをご紹介します。体調や日によって、ふれあいをお休みしている場合があります。</p>
       </div>
 
       <div class="grid grid--4" style="margin-top:38px" data-reveal-stagger="pop">
-        <a class="circle-link" href="animals.html"><span class="circle-link__img"></span><span><span class="circle-link__cat">REPTILE</span><span class="circle-link__name">爬虫類</span><span class="circle-link__note">ヘビ・トカゲ・ゾウガメなど</span></span></a>
-        <a class="circle-link" href="animals.html"><span class="circle-link__img"></span><span><span class="circle-link__cat">BIRD</span><span class="circle-link__name">鳥類・猛禽類</span><span class="circle-link__note">フクロウ・インコなど</span></span></a>
-        <a class="circle-link" href="animals.html"><span class="circle-link__img"></span><span><span class="circle-link__cat">SMALL ANIMAL</span><span class="circle-link__name">小動物・うさぎ</span><span class="circle-link__note">うさぎ・ハリネズミなど</span></span></a>
-        <a class="circle-link" href="animals.html"><span class="circle-link__img"></span><span><span class="circle-link__cat">DOG / CAT</span><span class="circle-link__name">犬・猫・サル</span><span class="circle-link__note">店内の人気者たち</span></span></a>
+        <a class="circle-link" href="animals.html"><img class="circle-link__img" src="images/a/salvator-azu-sq.webp" width="360" height="360" loading="lazy" decoding="async" alt="サルバトールモニター アザンティック"><span><span class="circle-link__cat">REPTILE</span><span class="circle-link__name">爬虫類</span><span class="circle-link__note">ヘビ・トカゲ・リクガメ 11種</span></span></a>
+        <a class="circle-link" href="animals.html"><img class="circle-link__img" src="images/a/macaw-sq.webp" width="360" height="360" loading="lazy" decoding="async" alt="ルリコンゴウインコ"><span><span class="circle-link__cat">BIRD</span><span class="circle-link__name">鳥類・インコ</span><span class="circle-link__note">コンゴウインコ・バタン 2種</span></span></a>
+        <a class="circle-link" href="animals.html"><img class="circle-link__img" src="images/a/netherland-sq.webp" width="360" height="360" loading="lazy" decoding="async" alt="ネザーランドドワーフ"><span><span class="circle-link__cat">SMALL ANIMAL</span><span class="circle-link__name">小動物・うさぎ</span><span class="circle-link__note">うさぎ・チンチラ・ミーアキャット 5種</span></span></a>
+        <a class="circle-link" href="animals.html"><img class="circle-link__img" src="images/a/ragdoll-sq.webp" width="360" height="360" loading="lazy" decoding="async" alt="ラグドール"><span><span class="circle-link__cat">DOG / CAT</span><span class="circle-link__name">犬・猫・サル</span><span class="circle-link__note">ラグドール・ブリー・マーモセット 4種</span></span></a>
       </div>
 
       <div style="margin-top:40px;display:flex;justify-content:center" data-reveal="up">
@@ -321,8 +325,8 @@
         <p class="lead" style="margin-top:0">特徴や飼育方法をしっかりご説明したうえで、新しい家族としてお迎えいただきます。</p>
 
         <div style="margin-top:18px;display:flex;flex-direction:column;gap:12px">
-          <a class="news-mini" href="news.html"><span class="news-mini__img"></span><span><span class="news-mini__date">2026.08.10 ／ 入荷</span><span class="news-mini__title">新しい仲間が来ました</span></span></a>
-          <a class="news-mini" href="news.html"><span class="news-mini__img news-mini__img--sand"></span><span><span class="news-mini__date">2026.08.03 ／ 休業</span><span class="news-mini__title">臨時休業のお知らせ</span></span></a>
+          <a class="news-mini" href="news.html"><img class="news-mini__img" src="images/a/meerkat-sq.webp" width="360" height="360" loading="lazy" decoding="async" alt="ミーアキャット"><span><span class="news-mini__date">2026.08.10 ／ 入荷</span><span class="news-mini__title">新しい仲間が来ました</span></span></a>
+          <a class="news-mini" href="news.html"><img class="news-mini__img news-mini__img--sand" src="images/a/aldabra-sq.webp" width="360" height="360" loading="lazy" decoding="async" alt="アルダブラゾウガメ"><span><span class="news-mini__date">2026.08.03 ／ 休業</span><span class="news-mini__title">臨時休業のお知らせ</span></span></a>
         </div>
 
         <a class="link-arrow" href="sales.html">お迎えのご相談について →</a>

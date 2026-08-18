@@ -92,15 +92,13 @@
 .no-js [data-reveal] { opacity: 1; }
 
 /* 連続する子要素を少しずつ遅らせる（カード列などのずらし表示） */
-[data-reveal-stagger] > * { --reveal-delay: 0s; }
-[data-reveal-stagger] > :nth-child(1) { --reveal-delay: .00s; }
-[data-reveal-stagger] > :nth-child(2) { --reveal-delay: .09s; }
-[data-reveal-stagger] > :nth-child(3) { --reveal-delay: .18s; }
-[data-reveal-stagger] > :nth-child(4) { --reveal-delay: .27s; }
-[data-reveal-stagger] > :nth-child(5) { --reveal-delay: .36s; }
-[data-reveal-stagger] > :nth-child(6) { --reveal-delay: .45s; }
-[data-reveal-stagger] > :nth-child(7) { --reveal-delay: .54s; }
-[data-reveal-stagger] > :nth-child(8) { --reveal-delay: .63s; }
+/* 4つごとに区切って遅らせる。どうぶつ一覧のように件数が多くても、
+   スクロールで入ってきた行がその都度きれいに流れて出ます。 */
+[data-reveal-stagger] > *                  { --reveal-delay: 0s; }
+[data-reveal-stagger] > :nth-child(4n + 1) { --reveal-delay: .00s; }
+[data-reveal-stagger] > :nth-child(4n + 2) { --reveal-delay: .09s; }
+[data-reveal-stagger] > :nth-child(4n + 3) { --reveal-delay: .18s; }
+[data-reveal-stagger] > :nth-child(4n)     { --reveal-delay: .27s; }
 
 /* --------------------------------------------------------------------------
    3. ヒーローの登場（読み込み直後に順番に出る）
@@ -421,4 +419,17 @@ body.is-locked { overflow: hidden; }
   .step-card:hover,
   .news-mini:hover,
   .panel--gold:hover { transform: none !important; }
+}
+
+/* --------------------------------------------------------------------------
+   どうぶつ個別ページ：サムネイルで写真を切り替えたとき
+   -------------------------------------------------------------------------- */
+@keyframes photoSwap {
+  from { opacity: 0; transform: scale(1.02); }
+  to   { opacity: 1; transform: none; }
+}
+.is-swapped { animation: photoSwap .45s cubic-bezier(.22, .68, .3, 1); }
+
+@media (prefers-reduced-motion: reduce) {
+  .is-swapped { animation: none; }
 }

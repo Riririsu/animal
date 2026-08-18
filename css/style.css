@@ -429,6 +429,14 @@ button {
   overflow: hidden;
   background: linear-gradient(140deg, #cfe0cd, #a8c4a4 45%, #8fb0a8);
 }
+/* ヒーローの写真。左側にベールが重なるので、被写体は右寄りに寄せて表示する */
+.hero__img {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: 72% 38%;
+}
 .hero__caption {
   position: absolute;
   right: 40px; bottom: 40px;
@@ -670,6 +678,9 @@ img:where(.photo, .card__thumb, .step-card__photo) { width: 100%; }
 .photo--h-lg  { height: clamp(200px, 130px + 18.7vw, 370px); }
 .photo--h-xl  { height: clamp(230px, 150px + 21.4vw, 430px); }
 .photo--h-hero{ height: clamp(270px, 191px + 21vw, 460px); }
+/* どうぶつ個別ページのメイン写真。高さを固定すると横長に切り抜かれて
+   被写体が見切れるため、比率（5:4）で持たせている */
+.photo--animal { height: auto; aspect-ratio: 5 / 4; }
 
 /* 重ね合わせた写真のかたまり。
    子要素は割合で指定しているため、幅に応じて自然に縮みます。 */
@@ -1013,11 +1024,35 @@ img:where(.photo, .card__thumb, .step-card__photo) { width: 100%; }
 .price-hero small { font-size: .42em; }
 
 .thumb-strip { display: flex; gap: clamp(8px, 0.66vw + 5.5px, 14px); margin-top: clamp(12px, 0.66vw + 9.5px, 18px); }
-.thumb-strip span {
+.thumb-strip span,
+.thumb-strip button {
   flex: 1;
   height: clamp(56px, 30px + 6.9vw, 96px);
   border-radius: clamp(14px, 0.66vw + 11.5px, 20px);
   background: linear-gradient(150deg, #d7e3d0, #aec5a6);
+}
+/* 押すとメインの写真が入れ替わるサムネイル */
+.thumb-strip button {
+  padding: 0;
+  overflow: hidden;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: border-color .25s ease, transform .3s cubic-bezier(.22, .68, .3, 1);
+}
+.thumb-strip button > img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.thumb-strip button:hover { transform: translateY(-3px); }
+.thumb-strip button[aria-current="true"] { border-color: var(--c-green); }
+
+/* 店内POPカード。縦長なので切り抜かず、そのままの比率で見せる */
+.photo-pop {
+  display: block;
+  width: 100%;
+  max-width: 430px;
+  height: auto;
+  margin-inline: auto;
+  border-radius: 20px;
+  border: 1px solid var(--c-line);
+  background: #fff;
 }
 
 .detail-title {
@@ -1224,7 +1259,6 @@ img:where(.photo, .card__thumb, .step-card__photo) { width: 100%; }
   .photo-cluster__c { display: none; }
 
   .circle-link__note { display: none; }
-  .thumb-strip span:nth-child(4) { display: none; }
 
   .news-row { flex-wrap: wrap; gap: 8px 12px; }
   .news-row__date { width: auto; }
