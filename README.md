@@ -19,9 +19,16 @@ Claude Design の「Oasis デザイン v2 全ページ」を、HTML / CSS / Java
 以降は push するだけで自動更新されます。
 公開の履歴は **Actions → Deploy to GitHub Pages** から確認できます。
 
-もしページが表示されない場合は、リポジトリの
-**Settings → Pages → Build and deployment → Source** が
-**「GitHub Actions」** になっているか確認してください。
+ワークフローが Pages を自動で有効にする設定
+（`.github/workflows/pages.yml` の `enablement: true`）にしてあるので、
+Settings 画面を触らなくても push だけで公開されます。
+
+**非公開に戻したいとき**は、次の2つを両方やってください。
+
+1. `Settings → Pages → Build and deployment → Source` を無効にする
+2. `.github/workflows/pages.yml` の `enablement: true` を `false` に戻す
+
+2 をやらないと、次に push したときにまた自動で公開されてしまいます。
 
 ### 独自ドメインにする場合
 

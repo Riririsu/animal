@@ -47,8 +47,15 @@ jobs:
           echo "--- 公開されるファイル ---"
           find _site -type f | sort
 
-      - name: Pages の設定を読み込む
+      # enablement: true は、リポジトリの Pages がまだ有効でなければ
+      # ここで有効にする指定です。Settings 画面を触らなくても公開できます。
+      # 非公開に戻したいときは Settings → Pages で無効にしたうえで、
+      # この行を false に戻してください（false のままだと、無効化しても
+      # 次の push でまた有効になってしまいます）。
+      - name: Pages を有効にして設定を読み込む
         uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
       - name: 成果物をアップロード
         uses: actions/upload-pages-artifact@v3
