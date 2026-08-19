@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'OASIS_VERSION', '1.0.1' );
+define( 'OASIS_VERSION', '1.0.2' );
 
 /*
  * テーマの場所。
@@ -45,8 +45,10 @@ if ( ! function_exists( 'oasis_theme_uri' ) ) {
 define( 'OASIS_URI', oasis_theme_uri() );
 
 /*
- * 読み込むファイル。1つでも欠けていると画面が真っ白になってしまうため、
- * 「無いものは飛ばして、管理画面にお知らせを出す」ようにしています。
+ * 読み込むファイル（すべて inc フォルダの中にあります）。
+ *
+ * 1つでも欠けていると「未定義の関数」という分かりにくいエラーになるため、
+ * 足りないファイルを控えておいて、あとではっきり知らせるようにしています。
  */
 $oasis_missing = array();
 foreach ( array( 'setup', 'assets', 'options', 'post-types', 'meta-animal', 'template-tags', 'importer' ) as $oasis_part ) {
@@ -60,10 +62,42 @@ foreach ( array( 'setup', 'assets', 'options', 'post-types', 'meta-animal', 'tem
 
 if ( $oasis_missing ) {
 	$GLOBALS['oasis_missing_files'] = $oasis_missing;
-	add_action( 'admin_notices', function () {
-		printf(
-			'<div class="notice notice-error"><p><strong>あにまるカフェ Oasis テーマ：</strong>次のファイルが見つかりません。テーマを入れ直してください。<br><code>%s</code></p></div>',
-			esc_html( implode( '</code><br><code>', (array) $GLOBALS['oasis_missing_files'] ) )
-		);
-	} );
+
+	// 管理画面：お知らせを出す（テーマの切り替えなどはできるようにしておく）
+	add_action( 'admin_notices', 'oasis_missing_notice' );
+
+	// サイト表示側：原因がすぐ分かるように、はっきり止める
+	add_action( 'template_redirect', 'oasis_missing_die' );
+}
+
+/** 管理画面のお知らせ。 */
+function oasis_missing_notice() {
+	printf(
+		'<div class="notice notice-error"><p><strong>あにまるカフェ Oasis テーマ：</strong>'
+		. 'テーマのファイルが足りません。<br>探した場所：<code>%s</code><br>'
+		. '見つからないファイル：<code>%s</code></p></div>',
+		esc_html( OASIS_DIR ),
+		esc_html( implode( '</code>, <code>', (array) $GLOBALS['oasis_missing_files'] ) )
+	);
+}
+
+/** サイト表示側で止める。 */
+function oasis_missing_die() {
+	$list = '';
+	foreach ( (array) $GLOBALS['oasis_missing_files'] as $f ) {
+		$list .= '<li><code>' . esc_html( $f ) . '</code></li>';
+	}
+
+	wp_die(
+		'<h1>テーマのファイルが足りません</h1>'
+		. '<p>「あにまるカフェ Oasis」テーマの一部が読み込めませんでした。</p>'
+		. '<p><strong>テーマを探した場所</strong><br><code>' . esc_html( OASIS_DIR ) . '</code></p>'
+		. '<p><strong>見つからなかったファイル</strong></p><ul>' . $list . '</ul>'
+		. '<p><strong>直しかた</strong><br>'
+		. 'この場所にある <code>oasis</code> フォルダを削除し、zip を展開し直して置き直してください。<br>'
+		. '<code>oasis</code> の中に <code>inc</code> フォルダがあり、その中に7つの php ファイルが'
+		. '入っていることをご確認ください。</p>',
+		'テーマのファイルが足りません',
+		array( 'response' => 500 )
+	);
 }
