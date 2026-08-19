@@ -266,6 +266,18 @@ button {
 }
 .wave--hero { height: calc(var(--wave-h) * 1.28); }
 
+/* --- 下端の1ドットの線について ---------------------------------------
+   端末の表示倍率が 125%・150%（Windows でよくある設定）のとき、
+   要素の下端がドットの途中に来て、写真の切り取り線が
+   1ドットの灰色い線として見えてしまうことがある。
+
+   対策として、ヒーローと下層ページの見出し帯は
+   「下端 6px を波と同じクリーム色にしておく」ようにしている。
+   同じ色どうしが重なるので、切り取り線が見えない。
+   この 6px は波のクリームに完全に隠れる（波の一番浅いところでも
+   20px 以上あるため）ので、見た目は変わらない。
+   → .hero / .hero__img / .page-hero の background と height を参照 */
+
 .deco {
   position: absolute;
   pointer-events: none;
@@ -427,13 +439,16 @@ button {
   position: relative;
   height: clamp(430px, 351.3px + 21vw, 620px);
   overflow: hidden;
-  background: linear-gradient(140deg, #cfe0cd, #a8c4a4 45%, #8fb0a8);
+  background:
+    linear-gradient(140deg, #cfe0cd, #a8c4a4 45%, #8fb0a8) 0 0 / 100% calc(100% - 6px) no-repeat,
+    var(--c-cream);
 }
 /* ヒーローの写真。左側にベールが重なるので、被写体は右寄りに寄せて表示する */
 .hero__img {
   position: absolute;
-  inset: 0;
-  width: 100%; height: 100%;
+  left: 0; right: 0; top: 0;
+  width: 100%;
+  height: calc(100% - 6px);
   object-fit: cover;
   object-position: 72% 38%;
 }
@@ -553,7 +568,9 @@ button {
    -------------------------------------------------------------------------- */
 .page-hero {
   position: relative;
-  background: var(--c-cream-2);
+  background:
+    linear-gradient(var(--c-cream-2), var(--c-cream-2)) 0 0 / 100% calc(100% - 6px) no-repeat,
+    var(--c-cream);
   padding-top: clamp(22px, 3.8vw, 56px);
   padding-bottom: var(--sec-top);
   overflow: hidden;
