@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'OASIS_VERSION', '1.0.2' );
+define( 'OASIS_VERSION', '1.0.3' );
 
 /*
  * テーマの場所。
@@ -43,6 +43,28 @@ if ( ! function_exists( 'oasis_theme_uri' ) ) {
 	}
 }
 define( 'OASIS_URI', oasis_theme_uri() );
+
+/*
+ * 以前のテーマの情報がデータベースに残っていたら、その場で直す。
+ *
+ * WordPress は「使用中のテーマ（stylesheet）」と「親テーマ（template）」を
+ * 別々に覚えています。前のテーマから乗り換えたときに片方だけ古いままだと、
+ * このテーマが「前のテーマの子テーマ」と見なされ、
+ * 前のテーマのプログラムまで一緒に読み込まれて動かなくなります。
+ *
+ * このテーマは子テーマではないので、両方が同じ値になるようにそろえます。
+ * （このテーマの子テーマを作っている場合は、何もしません）
+ *
+ * ※ after_setup_theme などのタイミングでは、前のテーマの読み込みに
+ *   間に合わないため、このファイルが読まれた時点で直しています。
+ */
+if ( function_exists( 'get_option' ) ) {
+	$oasis_stylesheet = get_option( 'stylesheet' );
+	if ( basename( OASIS_DIR ) === $oasis_stylesheet && get_option( 'template' ) !== $oasis_stylesheet ) {
+		update_option( 'template', $oasis_stylesheet );
+	}
+	unset( $oasis_stylesheet );
+}
 
 /*
  * 読み込むファイル（すべて inc フォルダの中にあります）。
