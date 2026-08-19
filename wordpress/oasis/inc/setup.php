@@ -49,6 +49,30 @@ function oasis_setup() {
 add_action( 'after_setup_theme', 'oasis_setup' );
 
 /**
+ * データベースに残った、以前のテーマの情報を直す。
+ *
+ * WordPress は「親テーマ（template）」と「使用中のテーマ（stylesheet）」を
+ * 別々に覚えています。前のテーマから乗り換えたときに片方だけ古いままだと、
+ * このテーマが「前のテーマの子テーマ」と見なされ、
+ * ファイルの読み込み先がずれて画面が真っ白になることがあります。
+ *
+ * このテーマは子テーマではないので、両方が同じ値になるようにそろえます。
+ * （このテーマの子テーマを作っている場合は、何もしません）
+ */
+function oasis_repair_theme_option() {
+	$stylesheet = get_option( 'stylesheet' );
+
+	// 使用中のテーマがこのテーマ自身のときだけ直す
+	if ( basename( OASIS_DIR ) !== $stylesheet ) {
+		return;
+	}
+	if ( get_option( 'template' ) !== $stylesheet ) {
+		update_option( 'template', $stylesheet );
+	}
+}
+add_action( 'after_setup_theme', 'oasis_repair_theme_option', 1 );
+
+/**
  * 管理画面の「画像サイズ」の選択肢に、分かりやすい名前で出す。
  */
 function oasis_image_size_names( $sizes ) {
