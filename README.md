@@ -79,7 +79,7 @@ sed -i 's|https://riririsu.github.io/animal/|https://example.com/|g' *.html robo
 │   └── pages.yml           GitHub Pages への自動公開
 │
 ├── wordpress/              WordPress でCMS化したもの（静的サイトとは別物です）
-│   ├── oasis/                  テーマ本体
+│   ├── animal-cafe-oasis/      テーマ本体
 │   └── readme-oasis.md         導入手順（テーマの中にも同じものが入っています）
 │
 ├── robots.txt              検索エンジン向けの案内
@@ -446,10 +446,10 @@ Chromium（Playwright）で確認しています。
 
 ## WordPress 版について
 
-`wordpress/oasis/` に、**この静的サイトを WordPress テーマにしたもの**が入っています。
+`wordpress/animal-cafe-oasis/` に、**この静的サイトを WordPress テーマにしたもの**が入っています。
 静的サイトはそのまま残してあるので、どちらも使えます。
 
-| | 静的サイト（このフォルダの直下） | WordPress 版（`wordpress/oasis/`） |
+| | 静的サイト（このフォルダの直下） | WordPress 版（`wordpress/animal-cafe-oasis/`） |
 |---|---|---|
 | 更新のしかた | HTMLファイルを直接編集 | **管理画面から** |
 | 写真の差し替え | `images/` に上書き | **管理画面でアップロード**（切り抜きは自動） |
@@ -482,7 +482,7 @@ Chromium（Playwright）で確認しています。
 ### 配布用の zip を作り直すには
 
 ```bash
-cd wordpress && zip -r oasis-wordpress-theme.zip oasis
+cd wordpress && zip -r animal-cafe-oasis.zip animal-cafe-oasis
 ```
 
 ---
@@ -493,6 +493,6 @@ cd wordpress && zip -r oasis-wordpress-theme.zip oasis
 CMS化の全体設計（どの項目をどう持たせるか、運用の考え方）は
 `docs/wordpress-plan.md` にまとめています。
 
-`wordpress/oasis/` は、この設計をそのまま実装したものです。
+`wordpress/animal-cafe-oasis/` は、この設計をそのまま実装したものです。
 どうぶつ22種のデータは `docs/animals.csv` にも同じ内容が入っているので、
 別のCMSに移すときはこちらを使えます。

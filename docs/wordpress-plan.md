@@ -1,7 +1,7 @@
 # WordPress CMS化の設計メモ
 
 > **この設計は実装済みです。**
-> `wordpress/oasis/` に、ここに書いた内容をそのまま形にした WordPress テーマが入っています。
+> `wordpress/animal-cafe-oasis/` に、ここに書いた内容をそのまま形にした WordPress テーマが入っています。
 > 導入手順は `wordpress/readme-oasis.md` をご覧ください。
 > 以下は「なぜそうしたか」を残した設計メモです。
 

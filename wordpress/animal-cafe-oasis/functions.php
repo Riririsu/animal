@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'OASIS_VERSION', '1.0.3' );
+define( 'OASIS_VERSION', '1.1.0' );
 
 /*
  * テーマの場所。

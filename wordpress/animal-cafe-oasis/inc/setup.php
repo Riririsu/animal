@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 function oasis_setup() {
-	load_theme_textdomain( 'oasis', OASIS_DIR . '/languages' );
+	load_theme_textdomain( 'animal-cafe-oasis', OASIS_DIR . '/languages' );
 
 	add_theme_support( 'title-tag' );
 	add_theme_support( 'post-thumbnails' );          // アイキャッチ画像＝メイン写真
@@ -27,9 +27,9 @@ function oasis_setup() {
 	add_theme_support( 'responsive-embeds' );
 
 	register_nav_menus( array(
-		'primary' => __( 'ヘッダーのメニュー', 'oasis' ),
-		'drawer'  => __( 'スマホのメニュー', 'oasis' ),
-		'footer'  => __( 'フッターのメニュー', 'oasis' ),
+		'primary' => __( 'ヘッダーのメニュー', 'animal-cafe-oasis' ),
+		'drawer'  => __( 'スマホのメニュー', 'animal-cafe-oasis' ),
+		'footer'  => __( 'フッターのメニュー', 'animal-cafe-oasis' ),
 	) );
 
 	/*

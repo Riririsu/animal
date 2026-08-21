@@ -9,12 +9,12 @@
 
 1. WordPress の管理画面 →「**外観**」→「**テーマ**」
 2. 上の「**新規追加**」→「**テーマのアップロード**」
-3. `oasis-wordpress-theme.zip` を選んで「**今すぐインストール**」
+3. `animal-cafe-oasis.zip` を選んで「**今すぐインストール**」
 4. インストールが終わったら「**有効化**」
 
 > **「アップロードしたファイルはサーバーの上限を超えています」と出たら**
 > テーマの zip が約11MBあるためです。FTP で `wp-content/themes/` に
-> `oasis` フォルダごと置いても同じように使えます。
+> `animal-cafe-oasis` フォルダごと置いても同じように使えます。
 
 ---
 
@@ -132,6 +132,17 @@
 
 ## うまくいかないときは
 
+### 「このテーマはすでにインストールされています」と出る／別のテーマが入っている
+
+`wp-content/themes/` に、**同じフォルダ名の別のテーマ**が入っています。
+よくあるのが Extend Themes の「Oasis」（colibri-wp の子テーマ）で、
+名前がかぶると「親テーマが見つかりません」というエラーになります。
+
+このテーマのフォルダ名は `animal-cafe-oasis` なので、通常はかぶりません。
+それでも出る場合は、`wp-content/themes/` の中を確認して、
+使っていない同名のテーマを削除してください
+（使用中のテーマは削除できないので、先に別のテーマを有効化してください）。
+
 ### 「親テーマが見つかりません。○○ 親テーマをインストールしてください」と出る
 
 データベースに前のテーマの名前が「親テーマ」として残っている状態です。
@@ -151,7 +162,7 @@
 
 **Local の Adminer で直すこともできます**（同じことをします）
 Local の「Database」→「Adminer」→ `wp_options` テーブル →
-`option_name` が `template` の行 → `option_value` を `oasis` に変更 → Save
+`option_name` が `template` の行 → `option_value` を `animal-cafe-oasis` に変更 → Save
 
 ### 「致命的なエラー」で colibri-wp などの前のテーマ名が出る
 
@@ -184,15 +195,15 @@ Local の「Database」→「Adminer」→ `wp_options` テーブル →
 Local をお使いの場合：
 1. Local のアプリで「**Go to site folder**」
 2. `app/public/wp-content/themes/` を開く
-3. 中の `oasis` フォルダを削除し、新しい `oasis` フォルダを置く
+3. 中の `animal-cafe-oasis` フォルダを削除し、新しい `animal-cafe-oasis` フォルダを置く
 4. ブラウザを再読み込み
 
 ### 画面が真っ白になった
 
 テーマフォルダの中身が足りない可能性があります。
-`oasis` フォルダの中に `functions.php` と `inc` フォルダがあるか確認してください。
+`animal-cafe-oasis` フォルダの中に `functions.php` と `inc` フォルダがあるか確認してください。
 
 ### zip のアップロードでエラーになる
 
 zipが約11MBあるため、サーバーの上限を超えることがあります。
-zipを展開して、`oasis` フォルダごと `wp-content/themes/` に置いても同じように使えます。
+zipを展開して、`animal-cafe-oasis` フォルダごと `wp-content/themes/` に置いても同じように使えます。
