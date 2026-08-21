@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Oasis｜親テーマの設定を直す
  * Description: 「親テーマが見つかりません。colibri-wp 親テーマをインストールしてください」と出る状態を直します。1回ページを開けば直るので、そのあとこのファイルは削除して構いません。
- * Version: 1.0.0
+ * Version: 1.1.0
  *
  * ── 使い方 ────────────────────────────────────────────────
  *   1. このファイルを  wp-content/mu-plugins/  に置く
@@ -29,10 +29,17 @@ if ( ! function_exists( 'oasis_fix_parent_theme_option' ) ) {
 
 	function oasis_fix_parent_theme_option() {
 
+		// テーマ一覧の古い記録を毎回消す。
+		// 前のテーマの情報が残っていて、一覧の表示だけがおかしい場合もあるため。
+		delete_site_transient( 'theme_roots' );
+		if ( function_exists( 'wp_clean_themes_cache' ) ) {
+			wp_clean_themes_cache();
+		}
+
 		$stylesheet = get_option( 'stylesheet' );
 		$template   = get_option( 'template' );
 
-		// もともとそろっていれば何もしない
+		// もともとそろっていれば、あとは何もしない
 		if ( ! $stylesheet || $stylesheet === $template ) {
 			return;
 		}
