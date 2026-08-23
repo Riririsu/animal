@@ -36,6 +36,11 @@ function oasis_option_fields() {
 				'holidays'    => array( 'label' => '臨時休業日', 'type' => 'textarea', 'default' => '',
 				                        'desc' => '1行に1つ、2026-08-20 の形で書いてください。' ),
 				'price'       => array( 'label' => '入場料の表記', 'type' => 'text', 'default' => '1,000円（2ドリンク付）' ),
+				'price_rows'  => array( 'label' => 'トップに出す料金の一覧', 'type' => 'textarea',
+				                        'default' => "入場料（2ドリンク付・1時間）|1,000円\nドリンク|400円〜\nご飯物・パスタ|700円〜\nケーキ|450円〜",
+				                        'desc' => '1行に1つ。<code>項目名|価格</code> のように、たて棒（|）で区切ってください。' ),
+				'price_note'  => array( 'label' => 'トップの料金の下に出す注意書き', 'type' => 'textarea',
+				                        'default' => 'お食事のみ・生体のお買い上げのみの方は入場料は頂きません。ゾウガメの餌やり体験は1回100円。' ),
 			),
 		),
 		'display' => array(

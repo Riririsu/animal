@@ -65,3 +65,21 @@
 	background: #fff;
 }
 .oasis-import h2 { margin-top: 0; border: 0; }
+
+/* 写真の差し替え画面 */
+.oasis-photo-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+	gap: 18px;
+	margin-bottom: 8px;
+}
+.oasis-photo-card {
+	padding: 16px 18px;
+	border: 1px solid #dcdcde;
+	border-radius: 6px;
+	background: #fff;
+}
+.oasis-photo-card .oasis-label { margin: 0 0 4px; }
+.oasis-photo-card .description { margin: 0 0 10px; }
+.oasis-photo-card .oasis-media__item { width: 120px; height: 90px; }
+.oasis-photo-card .oasis-media__list { min-height: 0; }

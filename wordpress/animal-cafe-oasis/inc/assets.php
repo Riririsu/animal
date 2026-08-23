@@ -54,14 +54,15 @@ function oasis_admin_enqueue( $hook ) {
 	$screen = get_current_screen();
 	$is_animal   = $screen && 'animal' === $screen->post_type;
 	$is_settings = ( 'settings_page_oasis-settings' === $hook );
+	$is_photos   = ( 'settings_page_oasis-photos' === $hook );
 
-	if ( ! $is_animal && ! $is_settings ) {
+	if ( ! $is_animal && ! $is_settings && ! $is_photos ) {
 		return;
 	}
 
 	wp_enqueue_style( 'oasis-admin', OASIS_URI . '/assets/css/admin.css', array(), OASIS_VERSION );
 
-	if ( $is_animal ) {
+	if ( $is_animal || $is_photos ) {
 		wp_enqueue_media();
 		wp_enqueue_script( 'oasis-admin', OASIS_URI . '/assets/js/admin.js', array( 'jquery', 'jquery-ui-sortable' ), OASIS_VERSION, true );
 	}

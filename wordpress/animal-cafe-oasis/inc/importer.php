@@ -197,25 +197,24 @@ function oasis_run_import() {
 	// 固定ページ（店舗紹介・メニュー・ルール・アクセス・生体販売・お知らせ）
 	$out = oasis_import_pages( $out );
 
-	// トップページ用の写真
+	// トップページ用の写真（「設定 → Oasis 写真の差し替え」で入れ替えられます）
 	$tops = array(
 		'hero'  => 'トップの大きな写真',
 		'top-a' => 'トップ 店舗紹介の写真',
 		'top-b' => 'トップ 店舗紹介の写真2',
 		'top-c' => 'トップ 店舗紹介の写真3',
 	);
-	$saved = (array) get_option( 'oasis_top_images', array() );
 	foreach ( $tops as $key => $label ) {
-		if ( ! empty( $saved[ $key ] ) && get_post( $saved[ $key ] ) ) {
-			continue;
+		$cur = oasis_photo_id( $key );
+		if ( $cur && get_post( $cur ) ) {
+			continue;   // すでに設定済み
 		}
 		$att = oasis_sideload( $key . '.webp', 0, $label );
 		if ( ! is_wp_error( $att ) ) {
-			$saved[ $key ] = $att;
+			oasis_set_photo_id( $key, $att );
 			$out['images']++;
 		}
 	}
-	update_option( 'oasis_top_images', $saved );
 	update_option( 'oasis_seed_done', 1 );
 
 	return $out;
@@ -254,11 +253,7 @@ function oasis_sideload( $filename, $post_id, $title ) {
 	return (int) $att;
 }
 
-/** 取り込んだトップページ用の写真を取り出す。 */
-function oasis_top_image( $key ) {
-	$saved = (array) get_option( 'oasis_top_images', array() );
-	return isset( $saved[ $key ] ) ? (int) $saved[ $key ] : 0;
-}
+
 
 /**
  * 固定ページをつくる。

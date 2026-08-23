@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'OASIS_VERSION', '1.1.0' );
+define( 'OASIS_VERSION', '1.2.0' );
 
 /*
  * テーマの場所。
@@ -73,7 +73,7 @@ if ( function_exists( 'get_option' ) ) {
  * 足りないファイルを控えておいて、あとではっきり知らせるようにしています。
  */
 $oasis_missing = array();
-foreach ( array( 'setup', 'assets', 'options', 'post-types', 'meta-animal', 'template-tags', 'importer' ) as $oasis_part ) {
+foreach ( array( 'setup', 'assets', 'options', 'post-types', 'meta-animal', 'photos', 'template-tags', 'importer' ) as $oasis_part ) {
 	$oasis_file = OASIS_DIR . '/inc/' . $oasis_part . '.php';
 	if ( file_exists( $oasis_file ) ) {
 		require_once $oasis_file;

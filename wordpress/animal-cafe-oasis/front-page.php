@@ -13,7 +13,7 @@ $open  = oasis_option( 'open', '11:00' );
 $close = oasis_option( 'close', '19:00' );
 $off   = oasis_closed_label();
 $price = oasis_option( 'price', '1,000円（2ドリンク付）' );
-$hero  = oasis_top_image( 'hero' );
+$hero  = oasis_photo_id( 'hero' );
 $terms = get_terms( array( 'taxonomy' => 'animal_cat', 'hide_empty' => true, 'orderby' => 'term_id' ) );
 if ( is_wp_error( $terms ) ) {
 	$terms = array();
@@ -31,6 +31,7 @@ if ( is_wp_error( $terms ) ) {
 				'sizes'         => '100vw',
 			) ); ?>
 		<?php endif; ?>
+		<?php // 写真は「設定 → Oasis 写真の差し替え」で入れ替えられます ?>
 		<div class="hero__veil"></div>
 		<svg class="deco deco--sprig" style="top:-46px;left:-40px;width:250px;height:250px;--deco-rot:-18deg" aria-hidden="true"><use href="#v2-sprig"/></svg>
 
@@ -76,9 +77,9 @@ if ( is_wp_error( $terms ) ) {
 			</div>
 
 			<div class="photo-cluster" data-reveal="right">
-				<?php oasis_image( oasis_top_image( 'top-a' ), 'oasis-wide', 'photo photo--organic photo-cluster__a', array( 'alt' => '', 'fallback' => '実物写真：店内の様子' ) ); ?>
-				<?php oasis_image( oasis_top_image( 'top-b' ), 'oasis-sq', 'photo photo--sand photo--organic-2 photo--framed photo-cluster__b', array( 'alt' => '', 'fallback' => '実物写真：ふれあい' ) ); ?>
-				<?php oasis_image( oasis_top_image( 'top-c' ), 'oasis-sq', 'photo photo--mist photo--circle photo--framed photo-cluster__c', array( 'alt' => '', 'fallback' => '実物写真：どうぶつ' ) ); ?>
+				<?php echo oasis_photo( 'top-a', array( 'fallback' => '実物写真：店内の様子' ) ); // phpcs:ignore ?>
+				<?php echo oasis_photo( 'top-b', array( 'fallback' => '実物写真：ふれあい' ) ); // phpcs:ignore ?>
+				<?php echo oasis_photo( 'top-c', array( 'fallback' => '実物写真：どうぶつ' ) ); // phpcs:ignore ?>
 			</div>
 		</div>
 	</section>
@@ -151,14 +152,60 @@ if ( is_wp_error( $terms ) ) {
 			</div>
 
 			<div class="grid grid--3 grid--steps" data-reveal-stagger="up">
-				<div class="step-card"><span class="step-card__num">1</span><span class="step-card__photo"></span><p class="step-card__title">そのままご来店（ご予約不要）</p><p class="step-card__text">予約は承っておりません</p></div>
-				<div class="step-card"><span class="step-card__num">2</span><span class="step-card__photo step-card__photo--sand"></span><p class="step-card__title">受付・手指消毒・ルール確認</p><p class="step-card__text">スタッフがご案内します</p></div>
-				<div class="step-card"><span class="step-card__num">3</span><span class="step-card__photo step-card__photo--mist"></span><p class="step-card__title">ドリンクを選んでふれあい</p><p class="step-card__text">1時間・2ドリンク付</p></div>
+				<div class="step-card"><span class="step-card__num">1</span><?php echo oasis_photo( 'step-1' ); // phpcs:ignore ?><p class="step-card__title">そのままご来店（ご予約不要）</p><p class="step-card__text">予約は承っておりません</p></div>
+				<div class="step-card"><span class="step-card__num">2</span><?php echo oasis_photo( 'step-2' ); // phpcs:ignore ?><p class="step-card__title">受付・手指消毒・ルール確認</p><p class="step-card__text">スタッフがご案内します</p></div>
+				<div class="step-card"><span class="step-card__num">3</span><?php echo oasis_photo( 'step-3' ); // phpcs:ignore ?><p class="step-card__title">ドリンクを選んでふれあい</p><p class="step-card__text">1時間・2ドリンク付</p></div>
 			</div>
 		</div>
 	</section>
 
-	<!-- ========== お知らせ ========== -->
+	<!-- ========== メニュー・料金 ========== -->
+	<section class="section section--green section--wave-top">
+		<svg class="wave" viewBox="0 0 1280 70" preserveAspectRatio="none" aria-hidden="true">
+			<path d="M0 0H1280V26C1120 66 940 14 750 40 560 66 370 70 210 48 120 36 58 28 0 34Z" fill="#FBF7EE"/>
+		</svg>
+		<svg class="deco deco--sprig" style="bottom:-40px;left:-50px;width:280px;height:280px;--deco-rot:-24deg" aria-hidden="true"><use href="#v2-sprig"/></svg>
+
+		<div class="wrap grid grid--2" style="align-items:center;gap:44px">
+			<div data-reveal="left">
+				<p class="eyebrow">MENU</p>
+				<h2 class="section-title">メニュー・料金</h2>
+				<p class="lead">入場料には2ドリンクが付いています。お食事のみのご利用も歓迎です。</p>
+
+				<?php
+				// 料金の行は「設定 → Oasis サイト設定 → 営業時間」で編集できます
+				$rows = array_filter( array_map( 'trim', preg_split( '/\r\n|\r|\n/', (string) oasis_option( 'price_rows', '' ) ) ) );
+				if ( $rows ) : ?>
+					<div class="rows rows--onGreen" style="margin-top:26px">
+						<?php foreach ( $rows as $row ) :
+							$cols = array_map( 'trim', explode( '|', $row, 2 ) ); ?>
+							<div class="row">
+								<span><?php echo esc_html( $cols[0] ); ?></span>
+								<span class="row__value"><?php echo esc_html( isset( $cols[1] ) ? $cols[1] : '' ); ?></span>
+							</div>
+						<?php endforeach; ?>
+					</div>
+				<?php endif; ?>
+
+				<?php if ( oasis_option( 'price_note', '' ) ) : ?>
+					<p class="note" style="margin-top:14px"><?php echo esc_html( oasis_option( 'price_note', '' ) ); ?></p>
+				<?php endif; ?>
+
+				<?php if ( get_permalink_by_slug( 'menu' ) ) : ?>
+					<a class="btn btn--gold" href="<?php echo esc_url( get_permalink_by_slug( 'menu' ) ); ?>" style="margin-top:26px">
+						メニューをすべて見る <?php echo oasis_arrow( '#2C2415' ); // phpcs:ignore ?>
+					</a>
+				<?php endif; ?>
+			</div>
+
+			<div class="photo-cluster photo-cluster--menu" data-reveal="right">
+				<?php echo oasis_photo( 'drink-a', array( 'fallback' => 'ドリンク・ケーキ写真' ) ); // phpcs:ignore ?>
+				<?php echo oasis_photo( 'drink-b', array( 'fallback' => 'ドリンク写真' ) ); // phpcs:ignore ?>
+			</div>
+		</div>
+	</section>
+
+	<!-- ========== ルール・お知らせ ========== -->
 	<section class="section section--cream section--wave-top">
 		<svg class="wave" viewBox="0 0 1280 66" preserveAspectRatio="none" aria-hidden="true">
 			<path d="M0 0H1280V20C1140 60 960 12 770 36 580 60 380 64 220 42 130 30 58 22 0 28Z" fill="#FBF7EE"/>
@@ -189,7 +236,17 @@ if ( is_wp_error( $terms ) ) {
 					if ( $news ) :
 						foreach ( $news as $n ) : ?>
 							<a class="news-mini" href="<?php echo esc_url( get_permalink( $n->ID ) ); ?>">
-								<?php oasis_image( get_post_thumbnail_id( $n->ID ), 'oasis-sq', 'news-mini__img', array( 'alt' => get_the_title( $n->ID ) ) ); ?>
+								<?php
+								$thumb = get_post_thumbnail_id( $n->ID );
+								if ( $thumb ) {
+									echo wp_get_attachment_image( $thumb, 'oasis-sq', false, array(
+										'class' => 'news-mini__img', 'alt' => get_the_title( $n->ID ),
+										'loading' => 'lazy', 'decoding' => 'async',
+									) );
+								} else {
+									echo oasis_photo( 'news-closed', array( 'alt' => get_the_title( $n->ID ) ) ); // phpcs:ignore
+								}
+								?>
 								<span>
 									<span class="news-mini__date"><?php echo esc_html( get_the_date( 'Y.m.d', $n ) ); ?></span>
 									<span class="news-mini__title"><?php echo esc_html( get_the_title( $n->ID ) ); ?></span>
@@ -236,8 +293,7 @@ if ( is_wp_error( $terms ) ) {
 						<p class="note" style="margin-top:10px;color:var(--c-text)">満車の際は「薩摩味処 喰宴」駐車場をご利用ください。踏切を渡ってすぐ左折、右側です。</p>
 						<div style="margin-top:14px">
 							<a class="photo-map-link" href="<?php echo esc_url( get_permalink_by_slug( 'access' ) ? get_permalink_by_slug( 'access' ) : home_url( '/' ) ); ?>">
-								<img class="photo-map photo-map--sm" src="<?php echo esc_url( OASIS_URI . '/assets/images/parking-map.svg' ); ?>"
-									width="800" height="1340" loading="lazy" decoding="async" alt="第二駐車場の案内図">
+								<?php echo oasis_photo( 'parking-map', array( 'class' => 'photo-map photo-map--sm', 'alt' => '第二駐車場の案内図' ) ); // phpcs:ignore ?>
 								<span class="photo-map-link__note">案内図を大きく見る →</span>
 							</a>
 						</div>

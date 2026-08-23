@@ -5,8 +5,8 @@
         <p class="lead">爬虫類・鳥類・猛禽類・小動物・うさぎ・サル・犬・猫。飲食を楽しみながら動物たちと過ごせる空間です。動物の体調を優先し、無理なふれあいは行いません。特徴や飼育方法をしっかりご説明したうえで、新しい家族としてお迎えいただきます。</p>
       </div>
       <div class="photo-cluster photo-cluster--about" data-reveal="right">
-        <div class="photo photo--organic photo-cluster__a">実物写真：店内の様子</div>
-        <div class="photo photo--sand photo--circle photo--framed photo-cluster__b">実物写真：外観</div>
+        [oasis_photo slot="about-interior" alt="店内の様子" fallback="実物写真：店内の様子"]
+        [oasis_photo slot="about-exterior" alt="お店の外観" fallback="実物写真：外観"]
       </div>
     </div>
   </section>
@@ -25,19 +25,19 @@
 
       <div class="grid grid--3 grid--stack-sp" data-reveal-stagger="up">
         <div class="step-card" style="text-align:center">
-          <span class="circle-link__img circle-link__img--plain"></span>
+          [oasis_photo slot="staff-1" alt="スタッフ"]
           <p class="step-card__title">スタッフ名</p>
           <p style="margin-top:6px;font-size:var(--fs-note);color:var(--c-leaf-text)">担当：爬虫類・小動物</p>
           <p class="step-card__text" style="margin-top:12px;text-align:left">動物ごとの接し方をご案内します。はじめての方もご安心ください。</p>
         </div>
         <div class="step-card" style="text-align:center">
-          <span class="circle-link__img circle-link__img--plain"></span>
+          [oasis_photo slot="staff-2" alt="スタッフ"]
           <p class="step-card__title">スタッフ名</p>
           <p style="margin-top:6px;font-size:var(--fs-note);color:var(--c-leaf-text)">担当：鳥類・猛禽類</p>
           <p class="step-card__text" style="margin-top:12px;text-align:left">飼育に必要な環境や費用を、一つずつご説明します。</p>
         </div>
         <div class="step-card" style="text-align:center">
-          <span class="circle-link__img circle-link__img--plain"></span>
+          [oasis_photo slot="staff-3" alt="スタッフ"]
           <p class="step-card__title">スタッフ名</p>
           <p style="margin-top:6px;font-size:var(--fs-note);color:var(--c-leaf-text)">担当：カフェ</p>
           <p class="step-card__text" style="margin-top:12px;text-align:left">ドリンクやケーキをご用意してお待ちしています。</p>
