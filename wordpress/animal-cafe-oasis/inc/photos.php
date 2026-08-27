@@ -89,34 +89,13 @@ function oasis_photo_slots() {
 				'size'  => 'oasis-sq',
 				'class' => 'photo photo--sand photo--circle photo--framed photo-cluster__b',
 			),
-			'staff-1' => array(
-				'label' => 'スタッフ①',
-				'note'  => '正方形の写真。丸く切り抜かれます。',
-				'size'  => 'oasis-sq',
-				'class' => 'circle-link__img circle-link__img--plain',
-			),
-			'staff-2' => array(
-				'label' => 'スタッフ②',
-				'size'  => 'oasis-sq',
-				'class' => 'circle-link__img circle-link__img--plain',
-			),
-			'staff-3' => array(
-				'label' => 'スタッフ③',
-				'size'  => 'oasis-sq',
-				'class' => 'circle-link__img circle-link__img--plain',
-			),
 		),
 
 		'メニュー・生体販売' => array(
 			'drink-a' => array(
-				'label' => 'トップ：ドリンク・ケーキ（大）',
+				'label' => 'トップ：ドリンク・ケーキ',
 				'size'  => 'oasis-wide',
-				'class' => 'photo photo--sand photo--organic-3 photo-cluster__a',
-			),
-			'drink-b' => array(
-				'label' => 'トップ：ドリンク（丸）',
-				'size'  => 'oasis-sq',
-				'class' => 'photo photo--sand photo--circle photo--framed-green photo-cluster__b',
+				'class' => 'photo photo--sand photo--organic-3 photo--h-lg',
 			),
 			'menu-photo' => array(
 				'label' => 'メニューページの写真',

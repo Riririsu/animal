@@ -198,9 +198,8 @@ if ( is_wp_error( $terms ) ) {
 				<?php endif; ?>
 			</div>
 
-			<div class="photo-cluster photo-cluster--menu" data-reveal="right">
+			<div data-reveal="right">
 				<?php echo oasis_photo( 'drink-a', array( 'fallback' => 'ドリンク・ケーキ写真' ) ); // phpcs:ignore ?>
-				<?php echo oasis_photo( 'drink-b', array( 'fallback' => 'ドリンク写真' ) ); // phpcs:ignore ?>
 			</div>
 		</div>
 	</section>

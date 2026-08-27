@@ -48,9 +48,9 @@ sed -i 's|https://riririsu.github.io/animal/|https://example.com/|g' *.html robo
 ```
 .
 ├── index.html      トップページ
-├── about.html      店舗紹介・コンセプト／スタッフ紹介／店舗情報
+├── about.html      店舗紹介・コンセプト／店舗情報
 ├── animals.html    どうぶつ紹介（22種の一覧・絞り込みつき）
-├── animal-*.html   どうぶつ個別プロフィール 22ページ（POPカード掲載）
+├── animal-*.html   どうぶつ個別プロフィール 21ページ（POPカード掲載）
 ├── menu.html       メニュー・料金
 ├── rules.html      ご利用ルール・注意事項
 ├── access.html     アクセス・駐車場
@@ -87,7 +87,7 @@ sed -i 's|https://riririsu.github.io/animal/|https://example.com/|g' *.html robo
 │
 └── docs/
     ├── photo-guide.md      写真の対応表（入れ込み済みのもの／まだ足りないもの）
-    ├── animals.csv         どうぶつ22種のデータ（CMS化するときの取り込み用）
+    ├── animals.csv         どうぶつ21種のデータ（CMS化するときの取り込み用）
     └── wordpress-plan.md   WordPress でCMS化する場合の設計メモ
 ```
 
@@ -233,7 +233,7 @@ sed -i 's|href="#instagram"|href="https://www.instagram.com/XXXX/" target="_blan
 | ページ | 足りていない写真 |
 |---|---|
 | トップ | 来店の流れ3枚／ドリンク・ケーキ2枚／Googleマップ |
-| 店舗紹介 | 店内の様子／外観／スタッフ3名 |
+| 店舗紹介 | 店内の様子／外観 |
 | メニュー | ドリンク・ケーキ |
 | 生体販売 | 説明の様子 |
 | アクセス | Googleマップ |
@@ -282,7 +282,7 @@ sed -i 's|href="#instagram"|href="https://www.instagram.com/XXXX/" target="_blan
 Googleマップの埋め込みコード（`<iframe>`）に置き換えてください。
 
 ### 7. 掲載内容
-**どうぶつ22種は、いただいた写真と店内POPカードの記載に合わせて実データにしています。**
+**どうぶつ21種は、いただいた写真と店内POPカードの記載に合わせて実データにしています。**
 メニュー・お知らせの各項目はデザイン通りのサンプルなので、実際の内容に差し替えてください。
 `news.html` のページ送り（1・2・3・次へ）も、記事が増えたら実際のリンク先に変えてください。
 
@@ -467,7 +467,7 @@ Chromium（Playwright）で確認しています。
   サイト全体のオン・オフも設定画面にあります
 - **サイト共通設定**：電話番号・住所・Instagram・営業時間・定休日・臨時休業日・
   Googleマップ・入場料・動物取扱業の表記を1か所で管理
-- **初期データの取り込み**：ボタン1つで、どうぶつ22種（写真67枚＋POPカード22枚）と
+- **初期データの取り込み**：ボタン1つで、どうぶつ21種（写真67枚＋POPカード22枚）と
   固定ページ6枚、メニュー3種をまとめて登録
 
 ### 導入手順
@@ -494,5 +494,5 @@ CMS化の全体設計（どの項目をどう持たせるか、運用の考え�
 `docs/wordpress-plan.md` にまとめています。
 
 `wordpress/animal-cafe-oasis/` は、この設計をそのまま実装したものです。
-どうぶつ22種のデータは `docs/animals.csv` にも同じ内容が入っているので、
+どうぶつ21種のデータは `docs/animals.csv` にも同じ内容が入っているので、
 別のCMSに移すときはこちらを使えます。

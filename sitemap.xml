@@ -61,11 +61,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://riririsu.github.io/animal/animal-macaw.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://riririsu.github.io/animal/animal-marmoset.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
