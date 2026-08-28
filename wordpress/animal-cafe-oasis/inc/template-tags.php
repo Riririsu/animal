@@ -276,6 +276,44 @@ function oasis_pagination() {
  * ------------------------------------------------------------------ */
 
 /**
+ * Googleマップの埋め込みコードを、レスポンシブな枠に入れて返す。
+ *
+ * 管理画面に貼りつける <iframe> は width="600" height="450" のような
+ * 固定サイズを持っている。そのまま出すとスマホで画面からはみ出して
+ * レイアウトが崩れるので、幅・高さの指定を外して .map-embed で包む。
+ *
+ * @param string $attrs 枠に足す属性（例: ' data-reveal="left"'）。
+ * @return string 未設定なら空文字。
+ */
+function oasis_map_embed( $attrs = '' ) {
+	$embed = trim( (string) oasis_option( 'map_embed', '' ) );
+	if ( '' === $embed ) {
+		return '';
+	}
+
+	// iframe の固定 width / height と、幅を決めてしまう style を取り除く
+	$embed = preg_replace_callback(
+		'/<iframe\b[^>]*>/i',
+		function ( $m ) {
+			$tag = preg_replace( '/\s(?:width|height)\s*=\s*("[^"]*"|\'[^\']*\'|[^\s>]+)/i', '', $m[0] );
+			$tag = preg_replace_callback(
+				'/\sstyle\s*=\s*(["\'])(.*?)\1/is',
+				function ( $sm ) {
+					$style = preg_replace( '/(?:^|;)\s*(?:width|height|min-width|max-width)\s*:[^;]*/i', '', $sm[2] );
+					$style = trim( $style, " \t;" );
+					return '' === $style ? '' : ' style="' . esc_attr( $style ) . '"';
+				},
+				$tag
+			);
+			return $tag;
+		},
+		$embed
+	);
+
+	return '<div class="map-embed"' . $attrs . '>' . $embed . '</div>';
+}
+
+/**
  * 取り込んだ本文には index.html / animals.html / images/... といった
  * 静的サイトのままの書き方が残っています。表示するときに置き換えます。
  * 本文を書き換えるわけではないので、あとから元に戻すこともできます。
@@ -343,11 +381,12 @@ function oasis_fix_legacy_links( $html ) {
 	}
 
 	// Googleマップの埋め込みが設定されていれば置き換える
-	$embed = (string) oasis_option( 'map_embed', '' );
-	if ( $embed ) {
+	$embed = oasis_map_embed( ' data-reveal="left"' );
+	if ( '' !== $embed ) {
 		$html = preg_replace(
 			'/<div class="photo photo--water photo--h-xl"[^>]*>Googleマップ<\/div>/u',
-			$embed,
+			// 置換文字列の $ や \ をそのまま出すためエスケープする
+			str_replace( array( '\\', '$' ), array( '\\\\', '\\$' ), $embed ),
 			$html
 		);
 	}

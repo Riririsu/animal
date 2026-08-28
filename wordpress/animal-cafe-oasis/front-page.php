@@ -273,8 +273,9 @@ if ( is_wp_error( $terms ) ) {
 			</div>
 
 			<div class="grid grid--media">
-				<?php if ( oasis_option( 'map_embed', '' ) ) : ?>
-					<div data-reveal="left"><?php echo wp_kses_post( oasis_option( 'map_embed', '' ) ); ?></div>
+				<?php $oasis_map = oasis_map_embed( ' data-reveal="left"' ); ?>
+				<?php if ( '' !== $oasis_map ) : ?>
+					<?php echo $oasis_map; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- 保存時に wp_kses 済み ?>
 				<?php else : ?>
 					<div class="photo photo--water photo--h-xl" data-reveal="left">Googleマップ</div>
 				<?php endif; ?>
