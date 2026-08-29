@@ -205,10 +205,8 @@ if ( is_wp_error( $terms ) ) {
 	</section>
 
 	<!-- ========== ルール・お知らせ ========== -->
-	<section class="section section--cream section--wave-top">
-		<svg class="wave" viewBox="0 0 1280 66" preserveAspectRatio="none" aria-hidden="true">
-			<path d="M0 0H1280V20C1140 60 960 12 770 36 580 60 380 64 220 42 130 30 58 22 0 28Z" fill="#FBF7EE"/>
-		</svg>
+	<section class="section">
+		<svg class="deco deco--paw" style="top:56px;left:34px;width:30px;height:30px;--deco-rot:-12deg" aria-hidden="true"><use href="#v2-paw"/></svg>
 
 		<div class="wrap grid grid--2" style="align-items:start">
 			<div class="panel panel--gold" data-reveal="up">
