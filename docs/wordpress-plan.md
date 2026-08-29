@@ -43,6 +43,7 @@ index.html            →     front-page.php        トップ
 about.html            →     page-about.php        店舗紹介（固定ページ）
 rules.html            →     page-rules.php        ご利用ルール（固定ページ）
 access.html           →     page-access.php       アクセス（固定ページ）
+sales.html            →     page-sales.php        生体販売（固定ページ）
 
 animals.html          →     archive-animal.php    どうぶつ一覧
 animal-*.html（22枚）  →     single-animal.php     どうぶつ個別（1テンプレートで22件を表示）
@@ -142,7 +143,7 @@ CMS化する際、ここは**曜日と時刻から自動で切り替える**の�
 | 段階 | 内容 |
 |---|---|
 | 1 | テーマの土台（header / footer / functions.php / CSS・JS読み込み） |
-| 2 | 固定ページ3枚（店舗紹介・ルール・アクセス） |
+| 2 | 固定ページ4枚（店舗紹介・ルール・アクセス・生体販売） |
 | 3 | お知らせ（一覧・個別・カテゴリー絞り込み） |
 | 4 | どうぶつ（カスタム投稿タイプ・一覧・個別・絞り込み） |
 | 5 | テーマ設定（店舗情報の一元管理）＋営業状況の自動表示 |

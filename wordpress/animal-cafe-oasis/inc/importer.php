@@ -194,7 +194,7 @@ function oasis_run_import() {
 		$out['created']++;
 	}
 
-	// 固定ページ（店舗紹介・メニュー・ルール・アクセス・お知らせ）
+	// 固定ページ（店舗紹介・メニュー・ルール・アクセス・生体販売・お知らせ）
 	$out = oasis_import_pages( $out );
 
 	// トップページ用の写真（「設定 → Oasis 写真の差し替え」で入れ替えられます）
@@ -381,6 +381,7 @@ function oasis_build_menus() {
 				array( 'どうぶつ紹介', 'ANIMALS', '__animals' ),
 				array( 'メニュー・料金', 'PRICE', 'menu' ),
 				array( 'ご利用ルール', 'RULES', 'rules' ),
+				array( '生体販売・お迎え', 'SALES', 'sales' ),
 				array( 'アクセス・駐車場', 'ACCESS', 'access' ),
 				array( 'お知らせ・ブログ', 'NEWS', 'news' ),
 			),
@@ -392,6 +393,7 @@ function oasis_build_menus() {
 				array( 'どうぶつ紹介', '', '__animals' ),
 				array( 'メニュー・料金', '', 'menu' ),
 				array( 'ご利用ルール', '', 'rules' ),
+				array( '生体販売・お迎えのご相談', '', 'sales' ),
 				array( 'アクセス・駐車場', '', 'access' ),
 				array( 'お知らせ・ブログ', '', 'news' ),
 			),

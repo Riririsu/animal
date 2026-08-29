@@ -815,6 +815,46 @@ img:where(.photo, .card__thumb, .step-card__photo) { width: 100%; }
 .tag--plain { background: #fff; border: 1px solid var(--c-line); color: var(--c-text); }
 .card__body > .tag { margin-top: 12px; }
 
+/* お迎えできる子のカードに出す「性別」「価格」。
+   1件ずつ管理画面から追加できる項目です（静的版は HTML を直接編集）。 */
+.sale-meta {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 12px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--c-line);
+  font-size: var(--fs-tag);
+  line-height: 1.8;
+}
+.sale-meta__label { color: var(--c-text-sub); white-space: nowrap; }
+.sale-meta__value { color: var(--c-text); }
+.sale-meta__value--price {
+  font-weight: 700;
+  color: var(--c-green-deep);
+  font-variant-numeric: tabular-nums;
+}
+/* 「ひとこと」。長さがまちまちでもカードの高さが揃うように行数で切る */
+.sale-note {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  margin-top: 10px;
+  font-size: var(--fs-tag);
+  line-height: 1.8;
+  color: var(--c-text-sub);
+}
+/* 1件も登録が無いときの案内 */
+.sale-empty {
+  margin-top: 4px;
+  padding: clamp(22px, 2vw + 15px, 34px);
+  border: 1px dashed var(--c-line);
+  border-radius: var(--r-card);
+  text-align: center;
+  color: var(--c-text-sub);
+}
+
 /* 手順カード（1・2・3） */
 .step-card {
   background: #fff;

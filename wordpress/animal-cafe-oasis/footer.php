@@ -42,7 +42,7 @@ $oasis_off   = oasis_closed_label();
 				<?php oasis_footer_links( array( 'about' => '店舗紹介・コンセプト', '__animals' => 'どうぶつ紹介', 'menu' => 'メニュー・料金', 'rules' => 'ご利用ルール' ) ); ?>
 			</nav>
 			<nav class="footer-links" aria-label="フッターメニュー2">
-				<?php oasis_footer_links( array( 'access' => 'アクセス・駐車場', 'news' => 'お知らせ・ブログ' ) ); ?>
+				<?php oasis_footer_links( array( 'sales' => '生体販売・お迎えのご相談', 'access' => 'アクセス・駐車場', 'news' => 'お知らせ・ブログ' ) ); ?>
 			</nav>
 		<?php endif; ?>
 	</div>
