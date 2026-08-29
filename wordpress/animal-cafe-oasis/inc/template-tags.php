@@ -319,8 +319,29 @@ function oasis_map_embed( $attrs = '' ) {
  * 本文を書き換えるわけではないので、あとから元に戻すこともできます。
  */
 function oasis_fix_legacy_links( $html ) {
-	if ( false === strpos( $html, '.html' ) && false === strpos( $html, 'images/' )
-		&& false === strpos( $html, '#instagram' ) && false === strpos( $html, 'tel:0000000000' ) ) {
+	// 差し替える対象がひとつも入っていない本文は、そのまま返して処理を省く。
+	// ここに載せ忘れると「設定を変えても本文が変わらない」不具合になるので、
+	// 下で str_replace / preg_replace している目印は必ず全部並べておくこと。
+	$needles = array(
+		'.html',
+		'images/',
+		'#instagram',
+		'tel:0000000000',
+		OASIS_PH_TEL,
+		OASIS_PH_ADDRESS,
+		OASIS_PH_HOURS,
+		OASIS_PH_CLOSED,
+		OASIS_PH_LICENSE,
+		'Googleマップ',
+	);
+	$found = false;
+	foreach ( $needles as $needle ) {
+		if ( false !== strpos( $html, $needle ) ) {
+			$found = true;
+			break;
+		}
+	}
+	if ( ! $found ) {
 		return $html;
 	}
 
@@ -368,11 +389,33 @@ function oasis_fix_legacy_links( $html ) {
 	$html = str_replace( 'tel:0000000000', oasis_tel_link(), $html );
 	$disp = (string) oasis_option( 'tel_display', '' );
 	if ( '' !== $disp ) {
-		$html = str_replace( '000-000-0000', $disp, $html );
+		$html = str_replace( OASIS_PH_TEL, esc_html( $disp ), $html );
 	}
 	$addr = (string) oasis_option( 'address', '' );
 	if ( '' !== $addr ) {
-		$html = str_replace( '鹿児島県霧島市国分—————', $addr, $html );
+		$html = str_replace( OASIS_PH_ADDRESS, esc_html( $addr ), $html );
+	}
+
+	// 営業時間「11:00 – 19:00」／定休日「火曜」／第一種動物取扱業の表記
+	$open  = (string) oasis_option( 'open', '11:00' );
+	$close = (string) oasis_option( 'close', '19:00' );
+	if ( '' !== $open && '' !== $close ) {
+		$html = str_replace( OASIS_PH_HOURS, esc_html( $open . ' – ' . $close ), $html );
+	}
+	$off = oasis_closed_label();
+	if ( '' !== $off ) {
+		// 「11:00 – 19:00／火曜定休」の形はすでに時刻が置換済みなので、末尾だけ直す
+		$html = str_replace( OASIS_PH_CLOSED . '定休', esc_html( $off ) . '定休', $html );
+		// アクセスページの「定休日：火曜」のように単独で置いてある場合
+		$html = str_replace(
+			'<span class="row__value">' . OASIS_PH_CLOSED . '</span>',
+			'<span class="row__value">' . esc_html( $off ) . '</span>',
+			$html
+		);
+	}
+	$license = (string) oasis_option( 'license', '' );
+	if ( '' !== $license ) {
+		$html = str_replace( OASIS_PH_LICENSE, wp_kses( $license, array( 'br' => array() ) ), $html );
 	}
 
 	$ig = oasis_instagram();

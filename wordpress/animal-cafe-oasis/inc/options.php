@@ -15,10 +15,10 @@ function oasis_option_fields() {
 		'shop' => array(
 			'title'  => 'お店の情報',
 			'fields' => array(
-				'tel_display' => array( 'label' => '電話番号（表示用）', 'type' => 'text', 'default' => '000-000-0000' ),
+				'tel_display' => array( 'label' => '電話番号（表示用）', 'type' => 'text', 'default' => OASIS_PH_TEL ),
 				'tel_link'    => array( 'label' => '電話番号（発信用・数字のみ）', 'type' => 'text', 'default' => '0000000000',
 				                        'desc' => 'ハイフンなしで入力してください。ボタンを押したときにかかる番号です。' ),
-				'address'     => array( 'label' => '住所', 'type' => 'text', 'default' => '鹿児島県霧島市国分—————' ),
+				'address'     => array( 'label' => '住所', 'type' => 'text', 'default' => OASIS_PH_ADDRESS ),
 				'instagram'   => array( 'label' => 'Instagram の URL', 'type' => 'url', 'default' => '',
 				                        'desc' => '空のままだと Instagram のボタンは表示されません。' ),
 				'license'     => array( 'label' => '第一種動物取扱業の表記', 'type' => 'textarea',

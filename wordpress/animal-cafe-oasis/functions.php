@@ -16,7 +16,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'OASIS_VERSION', '1.2.1' );
+define( 'OASIS_VERSION', '1.2.2' );
+
+/*
+ * 固定ページの本文に置いてある「差し替え用の目印」。
+ *
+ * 初期データの本文にはこの文字がそのまま入っていて、表示するときに
+ * 「Oasis サイト設定」の値へ置き換えています（inc/template-tags.php の
+ * oasis_fix_legacy_links）。目印を変えるときは、
+ * assets/seed/pages/*.html の中身も同じ文字に揃えてください。
+ */
+define( 'OASIS_PH_ADDRESS', '鹿児島県霧島市国分—————' );
+define( 'OASIS_PH_TEL',     '000-000-0000' );
+define( 'OASIS_PH_HOURS',   '11:00 – 19:00' );
+define( 'OASIS_PH_CLOSED',  '火曜' );
+define( 'OASIS_PH_LICENSE', '鹿児島県R8姶保第35号の5（販売）／鹿児島県R8姶保第35号の6（展示）<br>令和8年7月24日〜令和13年7月23日迄' );
 
 /*
  * テーマの場所。
