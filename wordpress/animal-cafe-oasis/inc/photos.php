@@ -113,6 +113,17 @@ function oasis_photo_slots() {
 				'class' => 'news-mini__img news-mini__img--sand',
 			),
 		),
+
+		'SNSでシェアされたとき' => array(
+			'og-image' => array(
+				'label' => 'URLを貼ったときに出る画像',
+				'note'  => 'LINE・Instagram・X などにサイトのURLを貼ると、この画像が出ます。'
+					. '横長（1200×630px くらい）がきれいです。'
+					. '未設定のときはサイトアイコンが使われます。',
+				'size'  => 'full',
+				'class' => 'photo',
+			),
+		),
 	);
 }
 
