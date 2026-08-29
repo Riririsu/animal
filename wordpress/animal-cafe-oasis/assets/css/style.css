@@ -101,6 +101,10 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--header-h) + 16px);
   -webkit-text-size-adjust: 100%;
+  /* 飾りの葉などが数px はみ出しても、横スクロールが出ないようにする。
+     hidden ではなく clip を使うのは、ヘッダーの position:sticky を
+     そのまま効かせるため。 */
+  overflow-x: clip;
 }
 
 body {
@@ -197,7 +201,6 @@ button {
 .section--green { background: var(--c-green); color: var(--c-on-green); }
 
 /* 波形の区切りが付くセクションは、波が上の余白を担う */
-.section.section--wave-top { padding-top: 0; }
 .section--wave-top > .wrap { padding-top: 6px; }
 
 .section__head { position: relative; }
@@ -264,6 +267,32 @@ button {
   height: var(--wave-h);
   pointer-events: none;
 }
+
+/* --------------------------------------------------------------------------
+   上端に出る細い線を防ぐ
+
+   Windows の拡大表示（125%・150%・175%）では、要素の上端がドットの
+   途中に来ることがある。そこで切り取り（overflow: hidden）が行われると、
+   後ろの色が1本の線になって見えてしまう。
+
+   ・波は枠の 1px 外側から描く（position:absolute / top:-1px）
+   ・切り取りは overflow: clip にして、余白（2px）を持たせる
+     → はみ出す飾りは今までどおり隠れるが、波の 1px は切られない
+   -------------------------------------------------------------------------- */
+.section--wave-top,
+.site-footer {
+  overflow: clip;
+  overflow-clip-margin: 1px;
+}
+.section--wave-top > .wave,
+.site-footer > .wave {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+.section.section--wave-top { padding-top: var(--wave-h); }
 .wave--overlap {
   position: absolute;
   left: 0; bottom: -1px;
@@ -1191,7 +1220,7 @@ img:where(.photo, .card__thumb, .step-card__photo) { width: 100%; }
   position: relative;
   background: var(--c-green);
   color: var(--c-on-green-nav);
-  overflow: hidden;
+  padding-top: var(--wave-h);
 }
 .site-footer__inner {
   position: relative;
