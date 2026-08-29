@@ -68,16 +68,50 @@ function oasis_default_terms() {
 		}
 	}
 
-	$cats = array( '爬虫類' => 'reptile', '鳥類・インコ' => 'bird', '小動物・うさぎ' => 'small', '犬・猫・サル' => 'dogcat' );
-	foreach ( $cats as $name => $slug ) {
+	foreach ( oasis_animal_cats() as $slug => $c ) {
 		if ( ! term_exists( $slug, 'animal_cat' ) ) {
-			wp_insert_term( $name, 'animal_cat', array( 'slug' => $slug ) );
+			wp_insert_term( $c['name'], 'animal_cat', array( 'slug' => $slug, 'description' => $c['desc'] ) );
 		}
 	}
 
 	update_option( 'oasis_terms_done', 1 );
 }
 add_action( 'admin_init', 'oasis_default_terms' );
+
+/**
+ * どうぶつのカテゴリの初期値。
+ *
+ * 「説明」は、トップページの丸いリンクの下に出る一言です。
+ * 以前はここに「11種」のように件数を出していましたが、
+ * どうぶつが増えると古くなるため、代表的な種類の名前にしています。
+ * 管理画面（どうぶつ → カテゴリ）から自由に書き換えられます。
+ */
+function oasis_animal_cats() {
+	return array(
+		'reptile' => array( 'name' => '爬虫類',        'desc' => 'ヘビ・トカゲ・リクガメ' ),
+		'bird'    => array( 'name' => '鳥類・インコ',  'desc' => 'アオメキバタン' ),
+		'small'   => array( 'name' => '小動物・うさぎ', 'desc' => 'うさぎ・チンチラ・ミーアキャット' ),
+		'dogcat'  => array( 'name' => '犬・猫・サル',  'desc' => 'ラグドール・ブリー・マーモセット' ),
+	);
+}
+
+/**
+ * すでにあるサイト向け：カテゴリの「説明」が空のときだけ、初期値を入れる。
+ * お店が書き換えた説明は上書きしません。一度だけ実行されます。
+ */
+function oasis_fill_cat_descriptions() {
+	if ( get_option( 'oasis_cat_desc_done' ) ) {
+		return;
+	}
+	foreach ( oasis_animal_cats() as $slug => $c ) {
+		$term = get_term_by( 'slug', $slug, 'animal_cat' );
+		if ( $term && ! is_wp_error( $term ) && '' === trim( (string) $term->description ) ) {
+			wp_update_term( $term->term_id, 'animal_cat', array( 'description' => $c['desc'] ) );
+		}
+	}
+	update_option( 'oasis_cat_desc_done', 1 );
+}
+add_action( 'admin_init', 'oasis_fill_cat_descriptions' );
 
 /**
  * 一覧の並び順。「順序」（page-attributes）が小さいものを先に、

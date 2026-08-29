@@ -117,7 +117,9 @@ if ( is_wp_error( $terms ) ) {
 							<span>
 								<?php if ( $rep_cat ) : ?><span class="circle-link__cat"><?php echo esc_html( $rep_cat ); ?></span><?php endif; ?>
 								<span class="circle-link__name"><?php echo esc_html( $t->name ); ?></span>
-								<span class="circle-link__note"><?php echo esc_html( $t->count ); ?>種</span>
+								<?php if ( $t->description ) : ?>
+									<span class="circle-link__note"><?php echo esc_html( $t->description ); ?></span>
+								<?php endif; ?>
 							</span>
 						</a>
 					<?php endforeach; ?>

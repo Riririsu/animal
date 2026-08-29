@@ -18,17 +18,11 @@ $oasis_terms = get_terms( array(
 if ( is_wp_error( $oasis_terms ) ) {
 	$oasis_terms = array();
 }
-$oasis_total = wp_count_posts( 'animal' );
-$oasis_total = isset( $oasis_total->publish ) ? (int) $oasis_total->publish : 0;
-
 oasis_page_hero(
 	'どうぶつ紹介',
 	'ANIMALS',
 	'どうぶつ紹介',
-	sprintf(
-		'店内で暮らす%sどうぶつをご紹介します。体調や日によって、ふれあいをお休みしている場合があります。ふれあいの可否は当日スタッフにお尋ねください。',
-		$oasis_total ? $oasis_total . '種の' : ''
-	)
+	'店内で暮らすどうぶつたちをご紹介します。体調や日によって、ふれあいをお休みしている場合があります。ふれあいの可否は当日スタッフにお尋ねください。'
 );
 ?>
 
