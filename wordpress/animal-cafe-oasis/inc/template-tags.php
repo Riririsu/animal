@@ -200,8 +200,10 @@ function oasis_fallback_nav() {
 			continue;
 		}
 		printf(
-			'<a class="gnav__link" href="%s">%s<span class="gnav__ja">%s</span></a>',
-			esc_url( $it[0] ), esc_html( $it[1] ), esc_html( $it[2] )
+			'<a class="gnav__link" href="%s"%s>%s<span class="gnav__ja">%s</span></a>',
+			esc_url( $it[0] ),
+			oasis_nav_is_current( $it[0] ) ? ' aria-current="page"' : '',
+			esc_html( $it[1] ), esc_html( $it[2] )
 		);
 	}
 }
@@ -223,10 +225,68 @@ function oasis_fallback_drawer() {
 			continue;
 		}
 		printf(
-			'<a class="drawer__link" href="%s">%s<span class="drawer__en">%s</span></a>',
-			esc_url( $it[0] ), esc_html( $it[1] ), esc_html( $it[2] )
+			'<a class="drawer__link" href="%s"%s>%s<span class="drawer__en">%s</span></a>',
+			esc_url( $it[0] ),
+			oasis_nav_is_current( $it[0] ) ? ' aria-current="page"' : '',
+			esc_html( $it[1] ), esc_html( $it[2] )
 		);
 	}
+}
+
+/* ------------------------------------------------------------------ *
+ *  メニューの「現在地」判定
+ * ------------------------------------------------------------------ */
+
+/**
+ * URL を比較用の文字列にそろえる（パスだけを見る）。
+ */
+function oasis_nav_url_key( $url ) {
+	$path = wp_parse_url( (string) $url, PHP_URL_PATH );
+	if ( ! $path ) {
+		$path = '/';
+	}
+	$key = untrailingslashit( $path );
+	// トップページは '/' → '' になってしまうので、'/' のまま返す
+	return '' === $key ? '/' : $key;
+}
+
+/**
+ * いま見ているページが、メニューのどの項目にあたるかを返す。
+ *
+ * WordPress が付ける current_page_parent は、固定ページ以外を見ているときに
+ * 「投稿ページ」（このサイトではお知らせ）へ必ず付いてしまいます。
+ * そのため、どうぶつ紹介を見ているのにお知らせにも下線が出ていました。
+ * ここでは見ているページの種類から現在地を自分で決めています。
+ *
+ * @return string 比較用の文字列。判定できないときは空文字。
+ */
+function oasis_nav_current_key() {
+	// どうぶつ紹介：一覧・個別・カテゴリのどれでも「どうぶつ紹介」を現在地にする
+	if ( is_post_type_archive( 'animal' ) || is_singular( 'animal' ) || is_tax( 'animal_cat' ) ) {
+		return oasis_nav_url_key( get_post_type_archive_link( 'animal' ) );
+	}
+
+	// お知らせ：一覧・個別・カテゴリ・日付などで「お知らせ」を現在地にする
+	if ( is_home() || is_singular( 'post' ) || is_category() || is_tag() || is_date() || is_author() ) {
+		$posts_page = (int) get_option( 'page_for_posts' );
+		return oasis_nav_url_key( $posts_page ? get_permalink( $posts_page ) : home_url( '/' ) );
+	}
+
+	if ( is_front_page() ) {
+		return oasis_nav_url_key( home_url( '/' ) );
+	}
+
+	if ( is_page() ) {
+		return oasis_nav_url_key( get_permalink() );
+	}
+
+	return '';
+}
+
+/** このリンク先が現在地かどうか。 */
+function oasis_nav_is_current( $url ) {
+	$current = oasis_nav_current_key();
+	return '' !== $current && oasis_nav_url_key( $url ) === $current;
 }
 
 /** スラッグから固定ページのURLを取る。無ければ空文字。 */
@@ -241,8 +301,7 @@ class Oasis_Nav_Walker extends Walker_Nav_Menu {
 		// メニュー名を英字（HOME など）、「リンク先のタイトル属性」を日本語として使います
 		$en      = $item->title;
 		$ja      = $item->attr_title;
-		$current = in_array( 'current-menu-item', (array) $item->classes, true )
-			|| in_array( 'current_page_parent', (array) $item->classes, true );
+		$current = oasis_nav_is_current( $item->url );
 
 		$output .= sprintf(
 			'<a class="gnav__link" href="%s"%s>%s%s</a>',
@@ -260,8 +319,9 @@ class Oasis_Drawer_Walker extends Walker_Nav_Menu {
 	public function start_el( &$output, $item, $depth = 0, $args = null, $id = 0 ) {
 		$en = $item->attr_title;
 		$output .= sprintf(
-			'<a class="drawer__link" href="%s">%s%s</a>',
+			'<a class="drawer__link" href="%s"%s>%s%s</a>',
 			esc_url( $item->url ),
+			oasis_nav_is_current( $item->url ) ? ' aria-current="page"' : '',
 			esc_html( $item->title ),
 			$en ? '<span class="drawer__en">' . esc_html( $en ) . '</span>' : ''
 		);

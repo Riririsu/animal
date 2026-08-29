@@ -66,7 +66,7 @@ oasis_page_hero(
 						<p class="note" style="color:var(--c-text)">
 							管理画面の
 							<a href="<?php echo esc_url( admin_url( 'options-general.php?page=oasis-settings' ) ); ?>">Oasis サイト設定</a>
-							から「初期データを取り込む」を押すと、22種をまとめて登録できます。
+							から「初期データを取り込む」を押すと、21種をまとめて登録できます。
 						</p>
 					<?php endif; ?>
 				</div>

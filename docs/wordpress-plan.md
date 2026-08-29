@@ -52,7 +52,7 @@ news.html             →     home.php / archive.php お知らせ一覧
 
 css/style.css         →     そのまま（wp_enqueue_style で読み込み）
 css/animations.css    →     そのまま
-js/main.js            →     そのまま（wp_enqueue_script で読み込み）
+js/*.js               →     そのまま（wp_enqueue_script で読み込み）
 images/logo.jpg       →     テーマ内 or カスタマイザーのロゴ設定
 ```
 

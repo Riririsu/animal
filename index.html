@@ -174,7 +174,7 @@
     <div class="hero__inner">
       <h1 class="hero__title">ここは、動物たちと<br>過ごす<span class="hero__accent">Oasis</span>。</h1>
       <p class="hero__lead">ふれあう、観察する、癒される。<br>家族みんなで楽しめる、あにまるカフェ。</p>
-      <!-- 来店前に知りたい情報。営業状況は js/main.js が曜日と時刻から自動で書き換えます -->
+      <!-- 来店前に知りたい情報。営業状況は js/hours.js が曜日と時刻から自動で書き換えます -->
       <ul class="hero__facts">
         <li class="hero__fact hero__fact--now" data-open-status>本日 営業中 11:00 – 19:00</li>
         <li class="hero__fact">ご予約不要</li>
@@ -405,6 +405,14 @@
   <a class="btn btn--gold" href="#instagram">Instagram</a>
 </div>
 
-<script src="js/main.js"></script>
+<!-- 画面の動き。base.js を先に読み込み、そのあとは機能ごとのファイルです。
+     使わないページでも、対象の要素が無ければ何もしません。 -->
+<script src="js/base.js"></script>
+<script src="js/reveal.js"></script>
+<script src="js/header.js"></script>
+<script src="js/drawer.js"></script>
+<script src="js/filter.js"></script>
+<script src="js/hours.js"></script>
+<script src="js/gallery.js"></script>
 </body>
 </html>

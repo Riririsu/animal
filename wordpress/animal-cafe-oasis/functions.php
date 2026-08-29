@@ -9,14 +9,14 @@
  *   post-types.php   … 「どうぶつ」の投稿タイプとカテゴリ
  *   meta-animal.php  … どうぶつの入力欄（写真・データ・お迎えの切り替え）
  *   template-tags.php… テンプレートから呼ぶ共通の関数
- *   importer.php     … 初期データ（22種）の取り込み
+ *   importer.php     … 初期データ（21種）の取り込み
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'OASIS_VERSION', '1.2.4' );
+define( 'OASIS_VERSION', '1.2.5' );
 
 /*
  * 固定ページの本文に置いてある「差し替え用の目印」。

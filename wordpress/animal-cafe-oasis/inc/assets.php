@@ -20,11 +20,25 @@ function oasis_enqueue() {
 	wp_enqueue_style( 'oasis-animations', OASIS_URI . '/assets/css/animations.css', array( 'oasis-style' ), OASIS_VERSION );
 	wp_enqueue_style( 'oasis-theme', get_stylesheet_uri(), array( 'oasis-style' ), OASIS_VERSION );
 
-	wp_enqueue_script( 'oasis-main', OASIS_URI . '/assets/js/main.js', array(), OASIS_VERSION, true );
+	/*
+	 * 画面の動きは機能ごとにファイルを分けています。
+	 * base.js が共通の土台（起動のタイミングなど）なので、必ず先に読み込みます。
+	 * ほかのファイルは base.js に依存させているので、順番は WordPress が守ります。
+	 */
+	wp_enqueue_script( 'oasis-base', OASIS_URI . '/assets/js/base.js', array(), OASIS_VERSION, true );
+	foreach ( array( 'reveal', 'header', 'drawer', 'filter', 'hours', 'gallery' ) as $oasis_js ) {
+		wp_enqueue_script(
+			'oasis-' . $oasis_js,
+			OASIS_URI . '/assets/js/' . $oasis_js . '.js',
+			array( 'oasis-base' ),
+			OASIS_VERSION,
+			true
+		);
+	}
 
 	// 営業時間を管理画面の設定から渡す。「本日 営業中」の自動表示に使われます。
 	$holidays = array_values( array_filter( array_map( 'trim', preg_split( '/\r\n|\r|\n/', (string) oasis_option( 'holidays', '' ) ) ) ) );
-	wp_localize_script( 'oasis-main', 'OASIS_HOURS', array(
+	wp_localize_script( 'oasis-hours', 'OASIS_HOURS', array(
 		'open'           => (string) oasis_option( 'open', '11:00' ),
 		'close'          => (string) oasis_option( 'close', '19:00' ),
 		'closedDays'     => array_map( 'intval', (array) oasis_option( 'closed_days', array( 2 ) ) ),
