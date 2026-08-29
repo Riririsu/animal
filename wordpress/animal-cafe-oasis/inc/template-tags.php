@@ -328,29 +328,16 @@ function get_permalink_by_slug( $slug ) {
 /** ヘッダーのメニュー用ウォーカー（英字＋日本語の2段表示）。 */
 class Oasis_Nav_Walker extends Walker_Nav_Menu {
 	public function start_el( &$output, $item, $depth = 0, $args = null, $id = 0 ) {
-		// メニュー名を英字（HOME など）、「リンク先のタイトル属性」を日本語として使います
-		$en = $item->title;
-		$ja = $item->attr_title;
-
-		// タイトル属性が空＝管理画面から自分で足した項目。
-		// 入れた文字を日本語の行にして、英字はリンク先から補います。
-		if ( '' === trim( (string) $ja ) ) {
-			$map = oasis_nav_en_map();
-			$key = oasis_nav_url_key( $item->url );
-			if ( isset( $map[ $key ] ) ) {
-				$ja = $en;
-				$en = $map[ $key ];
-			}
-		}
-
+		// 英字と日本語の決め方は inc/menu.php にまとめてあります
+		list( $en, $ja ) = oasis_menu_labels( $item );
 		$current = oasis_nav_is_current( $item->url );
 
 		$output .= sprintf(
 			'<a class="gnav__link" href="%s"%s>%s%s</a>',
 			esc_url( $item->url ),
 			$current ? ' aria-current="page"' : '',
-			esc_html( $en ),
-			$ja ? '<span class="gnav__ja">' . esc_html( $ja ) . '</span>' : ''
+			esc_html( '' !== $en ? $en : $ja ),
+			( '' !== $en && '' !== $ja ) ? '<span class="gnav__ja">' . esc_html( $ja ) . '</span>' : ''
 		);
 	}
 	public function end_el( &$output, $item, $depth = 0, $args = null ) {}
@@ -359,13 +346,13 @@ class Oasis_Nav_Walker extends Walker_Nav_Menu {
 /** スマホメニュー用ウォーカー。 */
 class Oasis_Drawer_Walker extends Walker_Nav_Menu {
 	public function start_el( &$output, $item, $depth = 0, $args = null, $id = 0 ) {
-		$en = $item->attr_title;
+		list( $en, $ja ) = oasis_menu_labels( $item, true );
 		$output .= sprintf(
 			'<a class="drawer__link" href="%s"%s>%s%s</a>',
 			esc_url( $item->url ),
 			oasis_nav_is_current( $item->url ) ? ' aria-current="page"' : '',
-			esc_html( $item->title ),
-			$en ? '<span class="drawer__en">' . esc_html( $en ) . '</span>' : ''
+			esc_html( $ja ),
+			'' !== $en ? '<span class="drawer__en">' . esc_html( $en ) . '</span>' : ''
 		);
 	}
 	public function end_el( &$output, $item, $depth = 0, $args = null ) {}

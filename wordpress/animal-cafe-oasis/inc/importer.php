@@ -362,16 +362,17 @@ function oasis_import_pages( $out ) {
  */
 function oasis_build_menus() {
 	$sets = array(
+		// array( ラベル（日本語）, 英字, リンク先 )
 		'primary' => array(
 			'name'  => 'ヘッダー',
 			'items' => array(
-				array( 'HOME', 'ホーム', '__home' ),
-				array( 'OASIS', '店舗紹介', 'about' ),
-				array( 'ANIMALS', 'どうぶつ紹介', '__animals' ),
-				array( 'PRICE', 'メニュー・料金', 'menu' ),
-				array( 'SALES', '生体販売', 'sales' ),
-				array( 'ACCESS', 'アクセス', 'access' ),
-				array( 'NEWS', 'お知らせ', 'news' ),
+				array( 'ホーム', 'HOME', '__home' ),
+				array( '店舗紹介', 'OASIS', 'about' ),
+				array( 'どうぶつ紹介', 'ANIMALS', '__animals' ),
+				array( 'メニュー・料金', 'PRICE', 'menu' ),
+				array( '生体販売', 'SALES', 'sales' ),
+				array( 'アクセス', 'ACCESS', 'access' ),
+				array( 'お知らせ', 'NEWS', 'news' ),
 			),
 		),
 		'drawer' => array(
@@ -444,9 +445,11 @@ function oasis_build_menus() {
 						'menu-item-status'    => 'publish',
 					);
 				}
-				// 「英字＋日本語」の2段表示に、リンクの説明（attr_title）を使う
-				$args['menu-item-attr-title'] = $sub;
-				wp_update_nav_menu_item( $menu_id, 0, $args );
+				// 英字は専用の欄（外観 → メニュー の「英字」）に入れる
+				$item_id = wp_update_nav_menu_item( $menu_id, 0, $args );
+				if ( $item_id && ! is_wp_error( $item_id ) && '' !== $sub ) {
+					update_post_meta( (int) $item_id, '_oasis_menu_en', $sub );
+				}
 			}
 		}
 
