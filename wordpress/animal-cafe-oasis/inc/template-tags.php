@@ -284,6 +284,35 @@ function oasis_nav_current_key() {
 	return '';
 }
 
+/**
+ * ヘッダーの2段表示（英字＋日本語）に使う、ページごとの英字。
+ *
+ * ヘッダーのメニューは「メニュー名＝英字」「タイトル属性＝日本語」で作りますが、
+ * 管理画面から自分でページを足したときは、英字が入らず日本語だけになります。
+ * その場合にリンク先から英字を補うための対応表です。
+ *
+ * @return array URL のキー => 英字
+ */
+function oasis_nav_en_map() {
+	$map  = array();
+	$pairs = array(
+		array( home_url( '/' ),                        'HOME' ),
+		array( get_permalink_by_slug( 'about' ),       'OASIS' ),
+		array( get_post_type_archive_link( 'animal' ), 'ANIMALS' ),
+		array( get_permalink_by_slug( 'menu' ),        'PRICE' ),
+		array( get_permalink_by_slug( 'rules' ),       'RULES' ),
+		array( get_permalink_by_slug( 'sales' ),       'SALES' ),
+		array( get_permalink_by_slug( 'access' ),      'ACCESS' ),
+		array( get_permalink_by_slug( 'news' ),        'NEWS' ),
+	);
+	foreach ( $pairs as $p ) {
+		if ( $p[0] ) {
+			$map[ oasis_nav_url_key( $p[0] ) ] = $p[1];
+		}
+	}
+	return $map;
+}
+
 /** このリンク先が現在地かどうか。 */
 function oasis_nav_is_current( $url ) {
 	$current = oasis_nav_current_key();
@@ -300,8 +329,20 @@ function get_permalink_by_slug( $slug ) {
 class Oasis_Nav_Walker extends Walker_Nav_Menu {
 	public function start_el( &$output, $item, $depth = 0, $args = null, $id = 0 ) {
 		// メニュー名を英字（HOME など）、「リンク先のタイトル属性」を日本語として使います
-		$en      = $item->title;
-		$ja      = $item->attr_title;
+		$en = $item->title;
+		$ja = $item->attr_title;
+
+		// タイトル属性が空＝管理画面から自分で足した項目。
+		// 入れた文字を日本語の行にして、英字はリンク先から補います。
+		if ( '' === trim( (string) $ja ) ) {
+			$map = oasis_nav_en_map();
+			$key = oasis_nav_url_key( $item->url );
+			if ( isset( $map[ $key ] ) ) {
+				$ja = $en;
+				$en = $map[ $key ];
+			}
+		}
+
 		$current = oasis_nav_is_current( $item->url );
 
 		$output .= sprintf(

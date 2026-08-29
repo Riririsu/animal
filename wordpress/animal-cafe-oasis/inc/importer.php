@@ -369,6 +369,7 @@ function oasis_build_menus() {
 				array( 'OASIS', '店舗紹介', 'about' ),
 				array( 'ANIMALS', 'どうぶつ紹介', '__animals' ),
 				array( 'PRICE', 'メニュー・料金', 'menu' ),
+				array( 'SALES', '生体販売', 'sales' ),
 				array( 'ACCESS', 'アクセス', 'access' ),
 				array( 'NEWS', 'お知らせ', 'news' ),
 			),
