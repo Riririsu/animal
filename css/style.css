@@ -942,6 +942,36 @@ img:where(.photo, .card__thumb, .step-card__photo) { width: 100%; }
 }
 .panel--gold  { border: 1.5px solid var(--c-gold); }
 .panel--cream { background: var(--c-cream-2); }
+
+/* 「お迎えのご相談」の緑の枠。
+   文章を左、ボタンを右にまとめて、横幅の広いところでも間が抜けないようにする。
+   狭い画面では縦に積み、ボタンは横並びに戻す。 */
+.cta-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: clamp(24px, 3vw, 52px);
+  align-items: center;
+}
+.cta-panel__body > :first-child { margin-top: 0; }
+.cta-panel__body > :last-child  { margin-bottom: 0; }
+/* 日本語は 1ch が半角基準なので、読みやすい行長は em で決める（約34文字） */
+.cta-panel__body .lead { max-width: 34em; }
+.cta-panel__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+  min-width: clamp(200px, 17vw, 240px);
+}
+@media (max-width: 860px) {
+  .cta-panel { grid-template-columns: 1fr; }
+  .cta-panel__actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+    min-width: 0;
+  }
+  .cta-panel__actions .btn { flex: 1 1 190px; }
+}
 .panel--green { background: var(--c-green); color: #fff; }
 .panel__title {
   margin-bottom: 16px;

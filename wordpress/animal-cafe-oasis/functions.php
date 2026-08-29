@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'OASIS_VERSION', '1.6.0' );
+define( 'OASIS_VERSION', '1.6.1' );
 
 /*
  * 固定ページの本文に置いてある「差し替え用の目印」。

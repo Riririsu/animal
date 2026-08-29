@@ -442,13 +442,13 @@ add_shortcode( 'oasis_sale_list', 'oasis_sale_list_shortcode' );
  * ------------------------------------------------------------------ */
 function oasis_sale_upgrade_page() {
 	// 手を入れる内容が増えたら、この番号を上げて作業をやり直させる
-	if ( 2 === (int) get_option( 'oasis_sale_page_done' ) ) {
+	if ( 3 === (int) get_option( 'oasis_sale_page_done' ) ) {
 		return;
 	}
 
 	$page = get_page_by_path( 'sales' );
 	if ( ! $page ) {
-		update_option( 'oasis_sale_page_done', 2 );
+		update_option( 'oasis_sale_page_done', 3 );
 		return;
 	}
 
@@ -475,29 +475,25 @@ function oasis_sale_upgrade_page() {
 		}
 	}
 
-	/* (2) 「お迎えのご相談」の枠から、説明の様子の写真を外す */
-	if ( false !== strpos( $updated, 'sales-photo' ) ) {
-		$panel = '<div class="panel panel--green" style="margin-top:50px" data-reveal="up">' . "\n"
-			. '        <h2 class="section-title section-title--sm" style="margin:0;color:#fff">お迎えのご相談</h2>' . "\n"
-			. '        <p class="lead" style="color:var(--c-on-green);max-width:62ch">飼育に必要な環境や費用を、スタッフが一つずつご説明します。お電話またはInstagramのDMでお気軽にお問い合わせください。</p>' . "\n"
-			. '        <div style="display:flex;flex-wrap:wrap;gap:14px;margin-top:26px">' . "\n"
-			. '          <a class="btn btn--gold" href="tel:0000000000">電話で相談</a>' . "\n"
-			. '          <a class="btn btn--ghost-gold" href="#instagram">Instagram DM</a>' . "\n"
-			. '        </div>' . "\n"
-			. '      </div>';
+	/* (2)「お迎えのご相談」の枠を、いまの形に入れ替える
+	       （説明写真ありの古い形も、写真だけ外した形も、まとめてここで直します） */
+	$panel = '<div class="panel panel--green cta-panel" style="margin-top:50px" data-reveal="up">' . "\n"
+		. '        <div class="cta-panel__body">' . "\n"
+		. '          <h2 class="section-title section-title--sm" style="margin:0;color:#fff">お迎えのご相談</h2>' . "\n"
+		. '          <p class="lead" style="color:var(--c-on-green)">飼育に必要な環境や費用を、スタッフが一つずつご説明します。お電話またはInstagramのDMでお気軽にお問い合わせください。</p>' . "\n"
+		. '        </div>' . "\n"
+		. '        <div class="cta-panel__actions">' . "\n"
+		. '          <a class="btn btn--gold" href="tel:0000000000">電話で相談</a>' . "\n"
+		. '          <a class="btn btn--ghost-gold" href="#instagram">Instagram DM</a>' . "\n"
+		. '        </div>' . "\n"
+		. '      </div>';
 
-		// 枠ごと入れ替える
-		$try = preg_replace(
-			'/<div class="panel panel--green"[^>]*>\s*<div class="grid grid--2"[^>]*>.*?\[oasis_photo slot="sales-photo"[^\]]*\]\s*<\/div>\s*<\/div>/us',
-			$panel,
-			$updated,
-			1
-		);
-
-		if ( null !== $try && $try !== $updated ) {
+	if ( false === strpos( $updated, 'cta-panel' ) ) {
+		$try = oasis_replace_div_block( $updated, '<div class="panel panel--green"', $panel );
+		if ( $try !== $updated ) {
 			$updated = $try;
 		} else {
-			// 枠の形が違うときは、写真の1行だけでも消す
+			// 枠が見つからないときは、せめて写真の1行だけ消す
 			$try = preg_replace( '/\s*\[oasis_photo slot="sales-photo"[^\]]*\]/u', '', $updated, 1 );
 			if ( null !== $try ) {
 				$updated = $try;
@@ -508,9 +504,46 @@ function oasis_sale_upgrade_page() {
 	if ( $updated !== $content ) {
 		wp_update_post( array( 'ID' => $page->ID, 'post_content' => $updated ) );
 	}
-	update_option( 'oasis_sale_page_done', 2 );
+	update_option( 'oasis_sale_page_done', 3 );
 }
 add_action( 'admin_init', 'oasis_sale_upgrade_page' );
+
+
+/**
+ * 開始タグから、対応する </div> までをまるごと入れ替える。
+ *
+ * 中身の形が変わっても確実に置き換えられるように、正規表現ではなく
+ * <div> と </div> の数を数えて範囲を決めています。
+ * 対応が取れないときは、何もせずそのまま返します。
+ */
+function oasis_replace_div_block( $html, $start_needle, $replacement ) {
+	$pos = strpos( $html, $start_needle );
+	if ( false === $pos ) {
+		return $html;
+	}
+	$len   = strlen( $html );
+	$depth = 0;
+	$i     = $pos;
+	while ( $i < $len ) {
+		if ( '<' === $html[ $i ] ) {
+			if ( 0 === substr_compare( $html, '<div', $i, 4, true ) ) {
+				$depth++;
+				$i += 4;
+				continue;
+			}
+			if ( 0 === substr_compare( $html, '</div>', $i, 6, true ) ) {
+				$depth--;
+				$i += 6;
+				if ( 0 === $depth ) {
+					return substr( $html, 0, $pos ) . $replacement . substr( $html, $i );
+				}
+				continue;
+			}
+		}
+		$i++;
+	}
+	return $html;
+}
 
 /** 自動で直せなかったときのお知らせ。 */
 function oasis_sale_page_notice() {
