@@ -65,6 +65,7 @@ add_action( 'init', 'oasis_register_sale_post_type' );
  * ------------------------------------------------------------------ */
 function oasis_sale_meta_boxes() {
 	add_meta_box( 'oasis-sale-data', 'この子のデータ', 'oasis_box_sale', 'oasis_sale', 'normal', 'high' );
+	add_meta_box( 'oasis-sale-news', 'お知らせにも載せる', 'oasis_box_sale_news', 'oasis_sale', 'side', 'high' );
 }
 add_action( 'add_meta_boxes', 'oasis_sale_meta_boxes' );
 
@@ -142,6 +143,47 @@ function oasis_box_sale( $post ) {
 }
 
 /* ------------------------------------------------------------------ *
+ *  お知らせにも載せる
+ * ------------------------------------------------------------------ */
+function oasis_box_sale_news( $post ) {
+	$news_id = (int) get_post_meta( $post->ID, '_oasis_sale_news_id', true );
+
+	// すでに投稿済みなら、その記事の状態を出す（もう作られません）
+	if ( $news_id ) {
+		if ( get_post( $news_id ) && 'trash' !== get_post_status( $news_id ) ) {
+			printf(
+				'<p>お知らせに投稿済みです。</p><p><a href="%s">「%s」を編集</a></p>',
+				esc_url( (string) get_edit_post_link( $news_id, '' ) ),
+				esc_html( get_the_title( $news_id ) )
+			);
+		} else {
+			echo '<p>お知らせに投稿済みです（記事は削除されています）。</p>';
+		}
+		echo '<p class="description">お知らせに載せるのは1回だけです。'
+			. 'この子を何度更新しても、お知らせが増えることはありません。<br>'
+			. 'もう一度載せたいときは、お知らせから新しい記事を書いてください。</p>';
+		return;
+	}
+
+	// 新規追加のときは既定でオン
+	$raw = get_post_meta( $post->ID, '_oasis_sale_news', true );
+	$on  = ( '' === $raw ) ? '1' : $raw;
+	?>
+	<p>
+		<label>
+			<input type="checkbox" name="oasis_sale_news" value="1" <?php checked( $on, '1' ); ?>>
+			<strong>お知らせにも投稿する</strong>
+		</label>
+	</p>
+	<p class="description">
+		「公開」を押したときに、お知らせ（カテゴリ：入荷）に記事を1本つくります。<br>
+		写真・名前・性別・金額から文章を組み立てます。<strong>あとから自由に書き換えられます。</strong><br>
+		投稿されるのは<strong>1回だけ</strong>です。この子を更新しても増えません。
+	</p>
+	<?php
+}
+
+/* ------------------------------------------------------------------ *
  *  保存
  * ------------------------------------------------------------------ */
 function oasis_save_sale( $post_id ) {
@@ -172,8 +214,112 @@ function oasis_save_sale( $post_id ) {
 
 	$note = isset( $_POST['oasis_sale_note'] ) ? sanitize_textarea_field( wp_unslash( $_POST['oasis_sale_note'] ) ) : '';
 	update_post_meta( $post_id, '_oasis_sale_note', $note );
+
+	// 「お知らせにも投稿する」（チェックが無いときは POST に入ってこない）
+	update_post_meta( $post_id, '_oasis_sale_news', isset( $_POST['oasis_sale_news'] ) ? '1' : '0' );
+	oasis_sale_maybe_post_news( $post_id );
 }
 add_action( 'save_post_oasis_sale', 'oasis_save_sale' );
+
+/**
+ * 条件がそろっていれば、お知らせに記事を1本つくる。
+ *
+ * つくるのは1回だけです（作った記事のIDを覚えておきます）。
+ * 下書きのあいだは何もせず、「公開」したときに投稿します。
+ */
+function oasis_sale_maybe_post_news( $post_id ) {
+	if ( '1' !== get_post_meta( $post_id, '_oasis_sale_news', true ) ) {
+		return;                                   // チェックが外れている
+	}
+	if ( 'publish' !== get_post_status( $post_id ) ) {
+		return;                                   // まだ下書き
+	}
+	if ( get_post_meta( $post_id, '_oasis_sale_news_id', true ) ) {
+		// 一度投稿したら、それ以上は作らない。
+		// お知らせ側で記事を消した場合も、勝手に作り直さない。
+		return;
+	}
+
+	$sexes = oasis_sale_sexes();
+	$name  = get_the_title( $post_id );
+	$animal_id = (int) get_post_meta( $post_id, '_oasis_sale_animal', true );
+	$kind  = $animal_id ? get_the_title( $animal_id ) : '';
+	$sex   = (string) get_post_meta( $post_id, '_oasis_sale_sex', true );
+	$price = (string) get_post_meta( $post_id, '_oasis_sale_price', true );
+	$note  = (string) get_post_meta( $post_id, '_oasis_sale_note', true );
+
+	// 1行目：「◯◯の△△が仲間入りしました。」
+	$lines = array( ( $kind && $kind !== $name ? $kind . 'の' : '' ) . $name . 'が仲間入りしました。' );
+
+	// 2行目：性別と価格（入っているものだけ）
+	$facts = array();
+	if ( '' !== $sex && isset( $sexes[ $sex ] ) ) {
+		$facts[] = '性別：' . $sexes[ $sex ];
+	}
+	if ( '' !== $price ) {
+		$facts[] = '価格：' . $price;
+	}
+	if ( $facts ) {
+		$lines[] = implode( '／', $facts );
+	}
+
+	if ( '' !== $note ) {
+		$lines[] = $note;
+	}
+
+	$sales_url = get_permalink_by_slug( 'sales' );
+	$lines[] = $sales_url
+		? 'くわしくは<a href="' . esc_url( $sales_url ) . '">生体販売・お迎えのご相談</a>のページをご覧ください。'
+		: 'くわしくはお気軽にお問い合わせください。';
+
+	$news_id = wp_insert_post( array(
+		'post_type'    => 'post',
+		'post_status'  => 'publish',
+		'post_title'   => $name . 'が仲間入りしました',
+		'post_content' => implode( "\n\n", $lines ),
+	), true );
+
+	if ( is_wp_error( $news_id ) ) {
+		return;
+	}
+
+	// カテゴリ「入荷」
+	$term = get_term_by( 'slug', 'arrival', 'category' );
+	if ( $term && ! is_wp_error( $term ) ) {
+		wp_set_post_terms( $news_id, array( (int) $term->term_id ), 'category' );
+	}
+
+	// 写真はこの子のものを使う。無ければ種類の写真。
+	$thumb = get_post_thumbnail_id( $post_id );
+	if ( ! $thumb && $animal_id ) {
+		$thumb = oasis_main_image_id( $animal_id );
+	}
+	if ( $thumb ) {
+		set_post_thumbnail( $news_id, (int) $thumb );
+	}
+
+	update_post_meta( $post_id, '_oasis_sale_news_id', (int) $news_id );
+	set_transient( 'oasis_sale_news_' . get_current_user_id(), (int) $news_id, 60 );
+}
+
+/** お知らせを投稿したことを、1回だけ管理画面で知らせる。 */
+function oasis_sale_news_notice() {
+	$key     = 'oasis_sale_news_' . get_current_user_id();
+	$news_id = (int) get_transient( $key );
+	if ( ! $news_id || ! get_post( $news_id ) ) {
+		return;
+	}
+	delete_transient( $key );
+	printf(
+		'<div class="notice notice-success is-dismissible"><p>'
+		. 'お知らせに「<strong>%s</strong>」を投稿しました。'
+		. '<a href="%s">文章を編集する</a>'
+		. '</p></div>',
+		esc_html( get_the_title( $news_id ) ),
+		esc_url( (string) get_edit_post_link( $news_id, '' ) )
+	);
+}
+add_action( 'admin_notices', 'oasis_sale_news_notice' );
 
 /* ------------------------------------------------------------------ *
  *  一覧画面の列
@@ -281,3 +427,79 @@ function oasis_sale_list_shortcode() {
 	return $out . '</div>';
 }
 add_shortcode( 'oasis_sale_list', 'oasis_sale_list_shortcode' );
+
+/* ------------------------------------------------------------------ *
+ *  すでにある生体販売ページを新しい形に直す（1回だけ）
+ *
+ *  初期データの取り込みは「ページがまだ無いとき」しか作らないので、
+ *  以前のテーマで作られたページは、固定の4枚のカードが入ったままになります。
+ *  そのままだと「お迎えできる子」を追加してもサイトに出ないため、
+ *  古いカードの部分だけを [oasis_sale_list] に置き換えます。
+ *
+ *  ・書き換えるのは、古いカードの並びがそのまま残っているときだけ
+ *  ・すでに [oasis_sale_list] があるページには触りません
+ *  ・WordPress のリビジョンが残るので、元に戻すこともできます
+ * ------------------------------------------------------------------ */
+function oasis_sale_upgrade_page() {
+	if ( get_option( 'oasis_sale_page_done' ) ) {
+		return;
+	}
+
+	$page = get_page_by_path( 'sales' );
+	if ( ! $page ) {
+		update_option( 'oasis_sale_page_done', 1 );
+		return;
+	}
+
+	$content = (string) $page->post_content;
+
+	// すでに新しい形なら何もしない
+	if ( false !== strpos( $content, '[oasis_sale_list]' ) ) {
+		update_option( 'oasis_sale_page_done', 1 );
+		return;
+	}
+
+	$new_block = '<h2 class="section-title section-title--sm" style="margin:50px 0 22px" data-reveal="up">いまお迎えできる子</h2>'
+		. "\n      [oasis_sale_list]";
+
+	// 古い見出し＋カードの並びを、まるごと置き換える
+	$updated = preg_replace(
+		'/<h2[^>]*>お迎えのご相談が多い子<\/h2>\s*<div class="grid grid--4"[^>]*>.*?<\/div>/us',
+		$new_block,
+		$content,
+		1
+	);
+
+	if ( null === $updated || $updated === $content ) {
+		// 形が違って自動では直せない。管理画面で知らせる。
+		update_option( 'oasis_sale_page_manual', 1 );
+		update_option( 'oasis_sale_page_done', 1 );
+		return;
+	}
+
+	wp_update_post( array( 'ID' => $page->ID, 'post_content' => $updated ) );
+	update_option( 'oasis_sale_page_done', 1 );
+}
+add_action( 'admin_init', 'oasis_sale_upgrade_page' );
+
+/** 自動で直せなかったときのお知らせ。 */
+function oasis_sale_page_notice() {
+	if ( ! get_option( 'oasis_sale_page_manual' ) || ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+	$page = get_page_by_path( 'sales' );
+	if ( ! $page ) {
+		delete_option( 'oasis_sale_page_manual' );
+		return;
+	}
+	printf(
+		'<div class="notice notice-warning"><p>'
+		. '<strong>あにまるカフェ Oasis：</strong>'
+		. '「お迎えできる子」をサイトに出すための記述が、生体販売ページに見つかりませんでした。<br>'
+		. '<a href="%s">生体販売ページを編集</a>して、'
+		. '「いまお迎えできる子」を出したい場所に <code>[oasis_sale_list]</code> と1行だけ書いて更新してください。'
+		. '</p></div>',
+		esc_url( (string) get_edit_post_link( $page->ID, '' ) )
+	);
+}
+add_action( 'admin_notices', 'oasis_sale_page_notice' );
