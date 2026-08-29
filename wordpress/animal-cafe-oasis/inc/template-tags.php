@@ -216,7 +216,6 @@ function oasis_fallback_drawer() {
 		array( get_post_type_archive_link( 'animal' ), 'どうぶつ紹介',        'ANIMALS' ),
 		array( get_permalink_by_slug( 'menu' ),        'メニュー・料金',      'PRICE' ),
 		array( get_permalink_by_slug( 'rules' ),       'ご利用ルール',        'RULES' ),
-		array( get_permalink_by_slug( 'sales' ),       '生体販売・お迎え',    'SALES' ),
 		array( get_permalink_by_slug( 'access' ),      'アクセス・駐車場',    'ACCESS' ),
 		array( get_permalink_by_slug( 'news' ),        'お知らせ・ブログ',    'NEWS' ),
 	);
@@ -445,7 +444,7 @@ function oasis_fix_legacy_links( $html ) {
 		'index.html'   => home_url( '/' ),
 		'animals.html' => get_post_type_archive_link( 'animal' ),
 	);
-	foreach ( array( 'about', 'menu', 'rules', 'access', 'sales', 'news' ) as $slug ) {
+	foreach ( array( 'about', 'menu', 'rules', 'access', 'news' ) as $slug ) {
 		$url = get_permalink_by_slug( $slug );
 		if ( $url ) {
 			$map[ $slug . '.html' ] = $url;

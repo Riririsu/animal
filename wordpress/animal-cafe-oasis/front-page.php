@@ -226,6 +226,7 @@ if ( is_wp_error( $terms ) ) {
 			<div class="panel panel--cream" data-reveal="up" style="--reveal-delay:.12s">
 				<p class="eyebrow">NEWS</p>
 				<h2 class="panel__title" style="margin-top:12px">お知らせ</h2>
+				<p class="lead" style="margin-top:0">新しい仲間の入荷、臨時休業、店内の様子などをお届けします。</p>
 
 				<div style="margin-top:18px;display:flex;flex-direction:column;gap:12px">
 					<?php

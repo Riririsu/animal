@@ -131,11 +131,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://riririsu.github.io/animal/sales.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://riririsu.github.io/animal/access.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

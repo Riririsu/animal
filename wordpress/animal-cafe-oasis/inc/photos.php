@@ -91,7 +91,7 @@ function oasis_photo_slots() {
 			),
 		),
 
-		'メニュー・生体販売' => array(
+		'メニュー' => array(
 			'drink-a' => array(
 				'label' => 'トップ：ドリンク・ケーキ',
 				'size'  => 'oasis-wide',
@@ -102,11 +102,6 @@ function oasis_photo_slots() {
 				'note'  => '横長。ドリンクやケーキなど。',
 				'size'  => 'oasis-wide',
 				'class' => 'photo photo--sand photo--organic-3 photo--h-lg',
-			),
-			'sales-photo' => array(
-				'label' => '生体販売ページ：ご説明の様子',
-				'size'  => 'oasis-wide',
-				'class' => 'photo photo--organic-2 photo--h-sm',
 			),
 		),
 
