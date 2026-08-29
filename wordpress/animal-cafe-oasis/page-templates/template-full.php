@@ -24,7 +24,12 @@ while ( have_posts() ) :
 		get_the_excerpt()
 	);
 
-	the_content();
+	// 本文は先に組み立てる。最後のセクションの色をフッターの波に伝えるため。
+	$oasis_body = str_replace( ']]>', ']]&gt;', apply_filters( 'the_content', get_the_content() ) );
+	echo $oasis_body; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- the_content 済み
+
+	// フッターの波は、本文の最後のセクションと同じ色で塗らないと境目に帯が出る
+	oasis_set_footer_wave( oasis_wave_color_for_content( $oasis_body ) );
 endwhile;
 
 get_footer();

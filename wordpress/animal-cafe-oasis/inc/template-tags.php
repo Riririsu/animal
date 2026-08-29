@@ -132,6 +132,42 @@ function oasis_hours_text() {
 	return sprintf( '本日 営業中 %s – %s', oasis_option( 'open', '11:00' ), oasis_option( 'close', '19:00' ) );
 }
 
+/**
+ * フッター上部の波の色。
+ *
+ * 波はフッターに置いてあるので、そのすぐ上にあるセクションの背景色と
+ * 同じ色で塗らないと、境目に色の違う帯が出てしまいます。
+ * どのセクションで終わるかを知っているのは各テンプレートなので、
+ * 必要なページだけ get_footer() の前に oasis_set_footer_wave() で色を伝えます。
+ * 何も指定しなければ、基本の背景色（クリーム）になります。
+ */
+function oasis_set_footer_wave( $color ) {
+	$GLOBALS['oasis_footer_wave'] = $color;
+}
+
+/**
+ * 本文（固定ページ）の中身から、フッターの波の色を決める。
+ * 初期データの本文は <section> で組まれているので、最後のセクションの
+ * 背景色に合わせます。
+ */
+function oasis_wave_color_for_content( $html ) {
+	if ( preg_match_all( '/<section[^>]*class="([^"]*)"/i', $html, $m ) ) {
+		$last = end( $m[1] );
+		if ( false !== strpos( $last, 'section--green' ) ) {
+			return '#2E5E3A';
+		}
+		if ( false !== strpos( $last, 'section--cream' ) ) {
+			return '#F3F0E2';
+		}
+	}
+	return '#FBF7EE';
+}
+
+/** フッター上部の波の色を返す。 */
+function oasis_footer_wave() {
+	return isset( $GLOBALS['oasis_footer_wave'] ) ? $GLOBALS['oasis_footer_wave'] : '#FBF7EE';
+}
+
 /** 定休日の表記（例：火曜）。 */
 function oasis_closed_label() {
 	$names = array( '日', '月', '火', '水', '木', '金', '土' );

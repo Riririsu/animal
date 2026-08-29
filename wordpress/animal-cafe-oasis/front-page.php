@@ -265,7 +265,12 @@ if ( is_wp_error( $terms ) ) {
 	</section>
 
 	<!-- ========== アクセス ========== -->
-	<section class="section">
+	<section class="section section--cream section--wave-top">
+		<svg class="wave" viewBox="0 0 1280 66" preserveAspectRatio="none" aria-hidden="true">
+			<path d="M0 0H1280V20C1140 60 960 12 770 36 580 60 380 64 220 42 130 30 58 22 0 28Z" fill="#FBF7EE"/>
+		</svg>
+		<svg class="deco deco--sprig" style="top:70px;right:-40px;width:230px;height:230px;--deco-rot:14deg" aria-hidden="true"><use href="#v2-sprig"/></svg>
+
 		<div class="wrap">
 			<div class="section__head" data-reveal="up">
 				<p class="eyebrow">ACCESS</p>
@@ -304,4 +309,6 @@ if ( is_wp_error( $terms ) ) {
 	</section>
 
 <?php
+// 最後のセクションがクリーム（--c-cream-2）の帯なので、フッターの波も同じ色にする
+oasis_set_footer_wave( '#F3F0E2' );
 get_footer();

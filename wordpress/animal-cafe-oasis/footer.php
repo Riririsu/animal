@@ -7,9 +7,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 $oasis_tel   = oasis_tel_link();
 $oasis_ig    = oasis_instagram();
-// フッター上部の波の色。トップページだけ、直前のセクションの色に合わせます。
-// （テンプレートの変数はフッターまで届かないため、ページの種類で判定しています）
-$oasis_wave  = is_front_page() ? '#F3F0E2' : '#FBF7EE';
+// フッター上部の波の色。直前のセクションの背景色に合わせる。
+// 色を変えたいテンプレートは get_footer() の前に oasis_set_footer_wave() を呼ぶ。
+$oasis_wave  = oasis_footer_wave();
 $oasis_hours = sprintf( '%s – %s', oasis_option( 'open', '11:00' ), oasis_option( 'close', '19:00' ) );
 $oasis_off   = oasis_closed_label();
 ?>
