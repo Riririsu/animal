@@ -192,6 +192,7 @@ function oasis_fallback_nav() {
 		array( get_permalink_by_slug( 'about' ), 'OASIS',   '店舗紹介' ),
 		array( get_post_type_archive_link( 'animal' ), 'ANIMALS', 'どうぶつ紹介' ),
 		array( get_permalink_by_slug( 'menu' ),  'PRICE',   'メニュー・料金' ),
+		array( get_permalink_by_slug( 'sales' ), 'SALES',   '生体販売' ),
 		array( get_permalink_by_slug( 'access' ),'ACCESS',  'アクセス' ),
 		array( get_permalink_by_slug( 'news' ),  'NEWS',    'お知らせ' ),
 	);

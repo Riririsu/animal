@@ -441,44 +441,74 @@ add_shortcode( 'oasis_sale_list', 'oasis_sale_list_shortcode' );
  *  ・WordPress のリビジョンが残るので、元に戻すこともできます
  * ------------------------------------------------------------------ */
 function oasis_sale_upgrade_page() {
-	if ( get_option( 'oasis_sale_page_done' ) ) {
+	// 手を入れる内容が増えたら、この番号を上げて作業をやり直させる
+	if ( 2 === (int) get_option( 'oasis_sale_page_done' ) ) {
 		return;
 	}
 
 	$page = get_page_by_path( 'sales' );
 	if ( ! $page ) {
-		update_option( 'oasis_sale_page_done', 1 );
+		update_option( 'oasis_sale_page_done', 2 );
 		return;
 	}
 
 	$content = (string) $page->post_content;
+	$updated = $content;
 
-	// すでに新しい形なら何もしない
-	if ( false !== strpos( $content, '[oasis_sale_list]' ) ) {
-		update_option( 'oasis_sale_page_done', 1 );
-		return;
+	/* (1) 固定の4枚のカード → [oasis_sale_list] */
+	if ( false === strpos( $updated, '[oasis_sale_list]' ) ) {
+		$new_block = '<h2 class="section-title section-title--sm" style="margin:50px 0 22px" data-reveal="up">いまお迎えできる子</h2>'
+			. "\n      [oasis_sale_list]";
+
+		$try = preg_replace(
+			'/<h2[^>]*>お迎えのご相談が多い子<\/h2>\s*<div class="grid grid--4"[^>]*>.*?<\/div>/us',
+			$new_block,
+			$updated,
+			1
+		);
+
+		if ( null === $try || $try === $updated ) {
+			// 形が違って自動では直せない。管理画面で知らせる。
+			update_option( 'oasis_sale_page_manual', 1 );
+		} else {
+			$updated = $try;
+		}
 	}
 
-	$new_block = '<h2 class="section-title section-title--sm" style="margin:50px 0 22px" data-reveal="up">いまお迎えできる子</h2>'
-		. "\n      [oasis_sale_list]";
+	/* (2) 「お迎えのご相談」の枠から、説明の様子の写真を外す */
+	if ( false !== strpos( $updated, 'sales-photo' ) ) {
+		$panel = '<div class="panel panel--green" style="margin-top:50px" data-reveal="up">' . "\n"
+			. '        <h2 class="section-title section-title--sm" style="margin:0;color:#fff">お迎えのご相談</h2>' . "\n"
+			. '        <p class="lead" style="color:var(--c-on-green);max-width:62ch">飼育に必要な環境や費用を、スタッフが一つずつご説明します。お電話またはInstagramのDMでお気軽にお問い合わせください。</p>' . "\n"
+			. '        <div style="display:flex;flex-wrap:wrap;gap:14px;margin-top:26px">' . "\n"
+			. '          <a class="btn btn--gold" href="tel:0000000000">電話で相談</a>' . "\n"
+			. '          <a class="btn btn--ghost-gold" href="#instagram">Instagram DM</a>' . "\n"
+			. '        </div>' . "\n"
+			. '      </div>';
 
-	// 古い見出し＋カードの並びを、まるごと置き換える
-	$updated = preg_replace(
-		'/<h2[^>]*>お迎えのご相談が多い子<\/h2>\s*<div class="grid grid--4"[^>]*>.*?<\/div>/us',
-		$new_block,
-		$content,
-		1
-	);
+		// 枠ごと入れ替える
+		$try = preg_replace(
+			'/<div class="panel panel--green"[^>]*>\s*<div class="grid grid--2"[^>]*>.*?\[oasis_photo slot="sales-photo"[^\]]*\]\s*<\/div>\s*<\/div>/us',
+			$panel,
+			$updated,
+			1
+		);
 
-	if ( null === $updated || $updated === $content ) {
-		// 形が違って自動では直せない。管理画面で知らせる。
-		update_option( 'oasis_sale_page_manual', 1 );
-		update_option( 'oasis_sale_page_done', 1 );
-		return;
+		if ( null !== $try && $try !== $updated ) {
+			$updated = $try;
+		} else {
+			// 枠の形が違うときは、写真の1行だけでも消す
+			$try = preg_replace( '/\s*\[oasis_photo slot="sales-photo"[^\]]*\]/u', '', $updated, 1 );
+			if ( null !== $try ) {
+				$updated = $try;
+			}
+		}
 	}
 
-	wp_update_post( array( 'ID' => $page->ID, 'post_content' => $updated ) );
-	update_option( 'oasis_sale_page_done', 1 );
+	if ( $updated !== $content ) {
+		wp_update_post( array( 'ID' => $page->ID, 'post_content' => $updated ) );
+	}
+	update_option( 'oasis_sale_page_done', 2 );
 }
 add_action( 'admin_init', 'oasis_sale_upgrade_page' );
 
