@@ -83,3 +83,33 @@
 .oasis-photo-card .description { margin: 0 0 10px; }
 .oasis-photo-card .oasis-media__item { width: 120px; height: 90px; }
 .oasis-photo-card .oasis-media__list { min-height: 0; }
+
+/* --------------------------------------------------------------------------
+   Oasis メニューの編集画面
+   -------------------------------------------------------------------------- */
+.oasis-menu-group {
+  margin: 0 0 22px;
+  padding: 16px 18px 8px;
+  background: #fff;
+  border: 1px solid #dcdcde;
+  border-radius: 8px;
+}
+.oasis-menu-group__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.oasis-menu-group__head .oasis-label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+.oasis-menu-group__tools { display: flex; gap: 6px; }
+.oasis-menu-rows th { font-weight: 600; }
+.oasis-menu-rows td { vertical-align: middle; }
+.oasis-menu-row__tools { display: flex; gap: 4px; white-space: nowrap; }
+.oasis-menu-row__tools .button { padding: 0 8px; }
+.oasis-menu-edit .submit .button + .button { margin-left: 10px; }

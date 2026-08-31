@@ -10,6 +10,7 @@
  *   sale.php         … 「お迎えできる子」（販売中の個体・性別・金額）
  *   meta-animal.php  … どうぶつの入力欄（写真・データ・お迎えの切り替え）
  *   menu.php         … メニューの「英字」欄
+ *   menu-items.php   … メニュー・料金の中身（管理画面から編集）
  *   share.php        … SNSに貼られたときの表示（OGP）と説明文
  *   template-tags.php… テンプレートから呼ぶ共通の関数
  *   importer.php     … 初期データ（21種）の取り込み
@@ -19,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'OASIS_VERSION', '1.7.1' );
+define( 'OASIS_VERSION', '1.8.0' );
 
 /*
  * 固定ページの本文に置いてある「差し替え用の目印」。
@@ -90,7 +91,7 @@ if ( function_exists( 'get_option' ) ) {
  * 足りないファイルを控えておいて、あとではっきり知らせるようにしています。
  */
 $oasis_missing = array();
-foreach ( array( 'setup', 'assets', 'options', 'post-types', 'meta-animal', 'sale', 'photos', 'menu', 'share', 'template-tags', 'importer' ) as $oasis_part ) {
+foreach ( array( 'setup', 'assets', 'options', 'post-types', 'meta-animal', 'sale', 'photos', 'menu', 'menu-items', 'share', 'template-tags', 'importer' ) as $oasis_part ) {
 	$oasis_file = OASIS_DIR . '/inc/' . $oasis_part . '.php';
 	if ( file_exists( $oasis_file ) ) {
 		require_once $oasis_file;

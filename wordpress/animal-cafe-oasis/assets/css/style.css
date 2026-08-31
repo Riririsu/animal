@@ -1053,6 +1053,27 @@ img:where(.photo, .card__thumb, .step-card__photo) { width: 100%; }
 }
 .row__label { flex: none; color: var(--c-text-sub); }
 .rows--onGreen .row__label { color: inherit; }
+/* メニューの一覧。区分ごとに品目数が違うので、段組みで詰めて並べる。
+   grid だと行の高さがそろってしまい、少ない区分の下が大きく空く。 */
+.menu-lists {
+  columns: 2;
+  column-gap: clamp(24px, 3.4vw, 44px);
+  margin-top: 44px;
+}
+.menu-lists > * {
+  break-inside: avoid;
+  margin: 0 0 clamp(22px, 2vw, 30px);
+}
+@media (max-width: 760px) {
+  .menu-lists { columns: 1; }
+}
+
+/* 品目の補足（「（クリックルカット）」など）。品名のあとに小さく出す */
+.row__note {
+  margin-left: .4em;
+  font-size: var(--fs-tag);
+  color: var(--c-text-sub);
+}
 .row__value { font-weight: 700; text-align: right; }
 
 /* 営業案内のミニボックス */
