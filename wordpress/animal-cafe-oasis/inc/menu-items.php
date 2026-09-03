@@ -24,7 +24,7 @@ function oasis_menu_defaults() {
 		'experience' => array(
 			'title' => '体験メニュー',
 			'name'  => 'ゾウガメの餌やり体験',
-			'price' => '1回 100円',
+			'price' => '1回 200円',
 			'note'  => '動物の体調により、お休みする場合があります。当日スタッフにお尋ねください。',
 		),
 		'groups' => array(
