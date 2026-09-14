@@ -199,3 +199,51 @@ function oasis_settings_page() {
 	</div>
 	<?php
 }
+
+/* ------------------------------------------------------------------ *
+ *  既定のままの内容を、新しい既定値に合わせる（1回だけ）
+ *
+ *  設定は「保存されている値」が優先されるので、テーマ側の初期値を直しても
+ *  すでに動いているサイトには反映されません。
+ *  そこで「初期値のまま一度も直していない項目」だけを、新しい初期値に
+ *  そろえます。お店で書き換えた文章には触りません。
+ * ------------------------------------------------------------------ */
+function oasis_upgrade_saved_defaults() {
+	$version = 1;                                   // 内容を足したらこの番号を上げる
+	if ( (int) get_option( 'oasis_defaults_done' ) >= $version ) {
+		return;
+	}
+
+	// 「以前の初期値」=> 「新しい初期値」
+	$moves = array(
+		'price_note' => array(
+			'お食事のみ・生体のお買い上げのみの方は入場料は頂きません。ゾウガメの餌やり体験は1回100円。',
+			'お食事のみ・生体のお買い上げのみの方は入場料は頂きません。ゾウガメの餌やり体験は1回200円。',
+		),
+	);
+
+	$settings = get_option( 'oasis_settings', array() );
+	if ( is_array( $settings ) ) {
+		$changed = false;
+		foreach ( $moves as $key => $m ) {
+			if ( isset( $settings[ $key ] ) && trim( (string) $settings[ $key ] ) === $m[0] ) {
+				$settings[ $key ] = $m[1];
+				$changed          = true;
+			}
+		}
+		if ( $changed ) {
+			update_option( 'oasis_settings', $settings );
+		}
+	}
+
+	// メニューの「体験メニュー」の金額
+	$menu = get_option( 'oasis_menu' );
+	if ( is_array( $menu ) && isset( $menu['experience']['price'] )
+		&& '1回 100円' === trim( (string) $menu['experience']['price'] ) ) {
+		$menu['experience']['price'] = '1回 200円';
+		update_option( 'oasis_menu', $menu );
+	}
+
+	update_option( 'oasis_defaults_done', $version );
+}
+add_action( 'admin_init', 'oasis_upgrade_saved_defaults' );
