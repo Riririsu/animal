@@ -145,45 +145,58 @@ while ( have_posts() ) :
 		</div>
 	</section>
 
-	<?php if ( $pop || oasis_animal_meta( $id, 'feature' ) || oasis_animal_meta( $id, 'trivia' ) ) : ?>
+	<?php
+	// 店内POPカードの節。
+	// POPカードの写真を入れていない子でもページが崩れないように、
+	// 写真があるときだけ写真と2列で並べ、ないときは見出しを変えて文章だけを出します。
+	$pop_blurb   = oasis_animal_meta( $id, 'blurb' );
+	$pop_feature = oasis_animal_meta( $id, 'feature' );
+	$pop_trivia  = oasis_animal_meta( $id, 'trivia' );
+	$pop_text    = ( $pop_blurb || $pop_feature || $pop_trivia );
+	?>
+	<?php if ( $pop || $pop_text ) : ?>
 		<section class="section section--cream section--wave-top">
 			<svg class="wave" viewBox="0 0 1280 66" preserveAspectRatio="none" aria-hidden="true">
 				<path d="M0 0H1280V20C1140 60 960 12 770 36 580 60 380 64 220 42 130 30 58 22 0 28Z" fill="#FBF7EE"/>
 			</svg>
 
 			<div class="wrap">
-				<h2 class="section-title section-title--sm" style="margin:0 0 20px" data-reveal="up">店内POPカード</h2>
-				<div class="grid grid--2" style="align-items:start">
+				<h2 class="section-title section-title--sm" style="margin:0 0 20px" data-reveal="up"><?php echo $pop ? '店内POPカード' : 'この子について'; ?></h2>
+				<?php
+				// 写真と文章の両方あるときだけ2列。片方しかないときは1列で中央／読みやすい幅に。
+				$pop_class = ( $pop && $pop_text ) ? 'grid grid--2' : ( $pop ? '' : 'pop-solo' );
+				?>
+				<div<?php echo $pop_class ? ' class="' . esc_attr( $pop_class ) . '"' : ''; ?> style="align-items:start">
 					<?php if ( $pop ) : ?>
 						<?php echo wp_get_attachment_image( $pop, 'oasis-pop', false, array(
 							'class'       => 'photo-pop',
 							'alt'         => sprintf( '%sの店内POPカード', get_the_title() ),
 							'loading'     => 'lazy',
 							'decoding'    => 'async',
-							'data-reveal' => 'left',
+							'data-reveal' => $pop_text ? 'left' : 'up',
 						) ); ?>
-					<?php else : ?>
-						<div class="photo photo--sand photo--h-lg" data-reveal="left">POPカード画像</div>
 					<?php endif; ?>
 
-					<div data-reveal="right">
-						<?php if ( oasis_animal_meta( $id, 'blurb' ) ) : ?>
-							<p class="lead" style="margin-top:0"><?php echo esc_html( oasis_animal_meta( $id, 'blurb' ) ); ?></p>
-						<?php endif; ?>
+					<?php if ( $pop_text ) : ?>
+						<div data-reveal="<?php echo $pop ? 'right' : 'up'; ?>">
+							<?php if ( $pop_blurb ) : ?>
+								<p class="lead" style="margin-top:0"><?php echo esc_html( $pop_blurb ); ?></p>
+							<?php endif; ?>
 
-						<?php if ( oasis_animal_meta( $id, 'feature' ) || oasis_animal_meta( $id, 'trivia' ) ) : ?>
-							<div class="panel" style="margin-top:20px">
-								<?php if ( oasis_animal_meta( $id, 'feature' ) ) : ?>
-									<h3 class="panel__title" style="margin-bottom:8px">特徴</h3>
-									<p class="note" style="color:var(--c-text)"><?php echo esc_html( oasis_animal_meta( $id, 'feature' ) ); ?></p>
-								<?php endif; ?>
-								<?php if ( oasis_animal_meta( $id, 'trivia' ) ) : ?>
-									<h3 class="panel__title" style="margin:22px 0 8px">豆知識</h3>
-									<p class="note" style="color:var(--c-text)"><?php echo esc_html( oasis_animal_meta( $id, 'trivia' ) ); ?></p>
-								<?php endif; ?>
-							</div>
-						<?php endif; ?>
-					</div>
+							<?php if ( $pop_feature || $pop_trivia ) : ?>
+								<div class="panel" style="margin-top:<?php echo $pop_blurb ? '20px' : '0'; ?>">
+									<?php if ( $pop_feature ) : ?>
+										<h3 class="panel__title" style="margin-bottom:8px">特徴</h3>
+										<p class="note" style="color:var(--c-text)"><?php echo esc_html( $pop_feature ); ?></p>
+									<?php endif; ?>
+									<?php if ( $pop_trivia ) : ?>
+										<h3 class="panel__title" style="margin:<?php echo $pop_feature ? '22px 0 8px' : '0 0 8px'; ?>">豆知識</h3>
+										<p class="note" style="color:var(--c-text)"><?php echo esc_html( $pop_trivia ); ?></p>
+									<?php endif; ?>
+								</div>
+							<?php endif; ?>
+						</div>
+					<?php endif; ?>
 				</div>
 			</div>
 		</section>

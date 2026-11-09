@@ -1223,6 +1223,11 @@ img:where(.photo, .card__thumb, .step-card__photo) { width: 100%; }
   background: #fff;
 }
 
+/* POPカードの写真がない子は、文章だけを1列で。読みやすい幅に抑える */
+.pop-solo {
+  max-width: 46em;
+}
+
 .detail-title {
   margin-top: 12px;
   font-family: var(--f-serif);

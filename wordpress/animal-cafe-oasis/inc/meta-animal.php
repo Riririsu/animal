@@ -62,8 +62,12 @@ function oasis_box_photos( $post ) {
 	</div>
 
 	<div class="oasis-field">
-		<label class="oasis-label">店内POPカード</label>
-		<p class="description">ページ下部の「店内POPカード」の節に、切り抜かずそのまま載ります。</p>
+		<label class="oasis-label">店内POPカード（なくても大丈夫です）</label>
+		<p class="description">
+			ページ下部の「店内POPカード」の節に、切り抜かずそのまま載ります。<br>
+			選ばない場合はこの節の見出しが「この子について」に変わり、下の「どうぶつのデータ」の
+			キャッチコピー・特徴・豆知識だけが出ます（写真の枠は出ません）。
+		</p>
 		<div class="oasis-media" data-multiple="0">
 			<input type="hidden" name="oasis_pop" class="oasis-media__value" value="<?php echo esc_attr( $pop ? $pop : '' ); ?>">
 			<div class="oasis-media__list"><?php oasis_admin_thumbs( $pop ? array( $pop ) : array() ); ?></div>
